@@ -1,6 +1,6 @@
 __author__ = 'Docopoper'
 
-import globals as gbl
+from globals import *
 
 if __name__ == '__main__':
-    gbl.pyglet.app.run()
+    pyglet.app.run()

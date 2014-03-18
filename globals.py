@@ -8,12 +8,10 @@ from math import *
 
 from pyglet.window import key, mouse
 
-from Builtin.object import Object
+from Builtin.camera import camera
 
-from Builtin.camera import Camera
-
-from Builtin.engine import Engine
+from Builtin.base_engine import engine
 
 from Builtin.window import window
 
-from Builtin.loader import Loader
+from Builtin.loader import loader

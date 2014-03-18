@@ -4,9 +4,11 @@ from globals import *
 import globals
 
 
-class Camera:
+class camera:
     x = 0
     y = 300
+    view_width = 800
+    view_height = 600
 
     @staticmethod
     def projection_world():
@@ -18,10 +20,10 @@ class Camera:
             glLoadIdentity()
 
             gluOrtho2D(
-                Camera.x - globals.window.width / 2,
-                Camera.x + globals.window.width / 2,
-                Camera.y - globals.window.height / 2,
-                Camera.y + globals.window.height / 2)
+                camera.x - camera.view_width / 2,
+                camera.x + camera.view_width / 2,
+                camera.y - camera.view_height / 2,
+                camera.y + camera.view_height / 2)
 
             glMatrixMode(GL_MODELVIEW)
 
@@ -48,8 +50,8 @@ class Camera:
 
     @staticmethod
     def screen_to_world(pos):
-        return pos[0] + Camera.x - globals.window.width / 2, pos[1] + Camera.y - globals.window.height / 2
+        return pos[0] + camera.x - globals.window.width / 2, pos[1] + camera.y - globals.window.height / 2
 
     @staticmethod
     def world_to_screen(pos):
-        return pos[0] - Camera.x + globals.window.width / 2, pos[1] - Camera.y + globals.window.height / 2
+        return pos[0] - camera.x + globals.window.width / 2, pos[1] - camera.y + globals.window.height / 2

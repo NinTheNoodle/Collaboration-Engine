@@ -2,14 +2,27 @@ __author__ = 'Docopoper'
 
 from globals import *
 import globals
+import sys
+import os
 
 
 #engine interface - all variables visible to the outside world
-class engine:
+class Engine(object):
+    path = os.path.dirname(os.path.abspath(sys.modules["__main__"].__file__))
+
     working_fps = 30
     fps = working_fps
 
-    editor_mode = False
+    _editor_mode = False  # the actual state of being in editor mode or not - updated at the end of a tick
+    _desired_editor_mode = False  # what to set _editor_mode to at the end of the tick
+
+    @property
+    def editor_mode(self):
+        return self._editor_mode
+
+    @editor_mode.setter
+    def editor_mode(self, value):
+        self._desired_editor_mode = value
 
     keys_down = set()
     keys_pressed = set()
@@ -22,8 +35,7 @@ class engine:
     mouse_x = 0
     mouse_y = 0
 
-    @staticmethod
-    def instance_create(module_name, class_name, x=0, y=0):
+    def instance_create(self, module_name, class_name, x=0, y=0):
         inst = engine.get_class(module_name, class_name)()
         inst.x = x
         inst.y = y
@@ -39,8 +51,7 @@ class engine:
         return inst
 
     #find the currently scoped class of the given name
-    @staticmethod
-    def get_object(module_name, object_type, object_name):
+    def get_object(self, module_name, object_type, object_name):
         try:
             return objects_local[object_type][(module_name, object_name)]
         except KeyError:
@@ -51,87 +62,69 @@ class engine:
                 raise KeyError(you_done_goofed)
 
     #region get_object convenience methods
-    @staticmethod
-    def get_class(module_name, class_name):
+    def get_class(self, module_name, class_name):
         return engine.get_object(module_name, "class", class_name)
 
-    @staticmethod
-    def get_sprite(module_name, sprite_name):
+    def get_sprite(self, module_name, sprite_name):
         return engine.get_object(module_name, "sprite", sprite_name)
 
-    @staticmethod
-    def get_sound(module_name, sound_name):
+    def get_sound(self, module_name, sound_name):
         return engine.get_object(module_name, "sound", sound_name)
 
-    @staticmethod
-    def get_music(module_name, music_name):
+    def get_music(self, module_name, music_name):
         return engine.get_object(module_name, "music", music_name)
 
-    @staticmethod
-    def get_resource(module_name, resource_name):
+    def get_resource(self, module_name, resource_name):
         return engine.get_object(module_name, "resource", resource_name)
     #endregion
 
     #region Class registration functions
     #register a new object on the local scope
-    @staticmethod
-    def register_object_local(module_name, object_type, object_name, object_ref):
+    def register_object_local(self, module_name, object_type, object_name, object_ref):
         objects_local[object_type][(module_name, object_name)] = object_ref
 
     #region register_object_local convenience methods
-    @staticmethod
-    def register_class_local(module_name, class_name, class_ref):
+    def register_class_local(self, module_name, class_name, class_ref):
         return engine.register_object_local(module_name, "class", class_name, class_ref)
 
-    @staticmethod
-    def register_sprite_local(module_name, sprite_name, image_ref):
+    def register_sprite_local(self, module_name, sprite_name, image_ref):
         return engine.register_object_local(module_name, "sprite", sprite_name, image_ref)
 
-    @staticmethod
-    def register_sound_local(module_name, sound_name, sound_ref):
+    def register_sound_local(self, module_name, sound_name, sound_ref):
         return engine.register_object_local(module_name, "sound", sound_name, sound_ref)
 
-    @staticmethod
-    def register_music_local(module_name, music_name, file_name):
-        return engine.register_object_local(module_name, "music", music_name, file_name)
+    def register_music_local(self, module_name, music_name, music_ref):
+        return engine.register_object_local(module_name, "music", music_name, music_ref)
 
-    @staticmethod
-    def register_resource_local(module_name, resource_name, file_name):
+    def register_resource_local(self, module_name, resource_name, file_name):
         return engine.register_object_local(module_name, "resource", resource_name, file_name)
     #endregion
 
     #register a new object on the global scope
-    @staticmethod
-    def register_object_global(module_name, object_type, object_name, object_ref):
+    def register_object_global(self, module_name, object_type, object_name, object_ref):
         objects_global[object_type][(module_name, object_name)] = object_ref
 
     #region register_object_local convenience methods
-    @staticmethod
-    def register_class_global(module_name, class_name, class_ref):
+    def register_class_global(self, module_name, class_name, class_ref):
         return engine.register_object_global(module_name, "class", class_name, class_ref)
 
-    @staticmethod
-    def register_sprite_global(module_name, sprite_name, image_ref):
+    def register_sprite_global(self, module_name, sprite_name, image_ref):
         return engine.register_object_global(module_name, "sprite", sprite_name, image_ref)
 
-    @staticmethod
-    def register_sound_global(module_name, sound_name, sound_ref):
+    def register_sound_global(self, module_name, sound_name, sound_ref):
         return engine.register_object_global(module_name, "sound", sound_name, sound_ref)
 
-    @staticmethod
-    def register_music_global(module_name, music_name, file_name):
+    def register_music_global(self, module_name, music_name, file_name):
         return engine.register_object_global(module_name, "music", music_name, file_name)
 
-    @staticmethod
-    def register_resource_global(module_name, resource_name, file_name):
+    def register_resource_global(self, module_name, resource_name, file_name):
         return engine.register_object_global(module_name, "resource", resource_name, file_name)
     #endregion
 
     #endregion
 
     #recreate the drawing texture if the window has been resized
-    @staticmethod
-    def validate_window():
+    def validate_window(self):
         global window_invalidated
 
         if window_invalidated:
@@ -139,6 +132,7 @@ class engine:
             tex_draw = pyglet.image.Texture.create_for_size(GL_TEXTURE_2D, globals.window.width, globals.window.height, internalformat=GL_RGB)
             window_invalidated = False
 
+engine = Engine()
 
 buffers = pyglet.image.get_buffer_manager()
 bfr_col = buffers.get_color_buffer()
@@ -181,6 +175,7 @@ class EventHandler(pyglet.event.EventDispatcher):
         engine.keys_pressed.clear()
         engine.mouse_released.clear()
         engine.mouse_pressed.clear()
+        engine._editor_mode = engine._desired_editor_mode
 
     def draw(self):
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bfr_col.gl_buffer)

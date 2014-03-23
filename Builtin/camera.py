@@ -4,14 +4,13 @@ from globals import *
 import globals
 
 
-class camera:
+class Camera:
     x = 0
     y = 300
     view_width = 800
     view_height = 600
 
-    @staticmethod
-    def projection_world():
+    def projection_world(self):
         try:
             glEnable(GL_BLEND)
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
@@ -30,8 +29,7 @@ class camera:
             glLoadIdentity()
         except pyglet.gl.lib.GLException: pass
 
-    @staticmethod
-    def projection_default():
+    def projection_default(self):
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
         glMatrixMode(GL_PROJECTION)
@@ -48,10 +46,10 @@ class camera:
 
         glLoadIdentity()
 
-    @staticmethod
-    def screen_to_world(pos):
+    def screen_to_world(self, pos):
         return pos[0] + camera.x - globals.window.width / 2, pos[1] + camera.y - globals.window.height / 2
 
-    @staticmethod
-    def world_to_screen(pos):
+    def world_to_screen(self, pos):
         return pos[0] - camera.x + globals.window.width / 2, pos[1] - camera.y + globals.window.height / 2
+
+camera = Camera()

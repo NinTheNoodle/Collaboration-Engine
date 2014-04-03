@@ -6,7 +6,7 @@ import globals
 
 class Camera:
     x = 0
-    y = 300
+    y = 0
     view_width = 800
     view_height = 600
 

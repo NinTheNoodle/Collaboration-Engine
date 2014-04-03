@@ -4,6 +4,7 @@ from globals import *
 import globals
 import sys
 import os
+import wrappers
 
 
 #engine interface - all variables visible to the outside world
@@ -13,16 +14,14 @@ class Engine(object):
     working_fps = 30
     fps = working_fps
 
-    _editor_mode = False  # the actual state of being in editor mode or not - updated at the end of a tick
-    _desired_editor_mode = False  # what to set _editor_mode to at the end of the tick
-
     @property
     def editor_mode(self):
-        return self._editor_mode
+        return editor_mode
 
     @editor_mode.setter
     def editor_mode(self, value):
-        self._desired_editor_mode = value
+        global desired_editor_mode
+        desired_editor_mode = value
 
     keys_down = set()
     keys_pressed = set()
@@ -35,10 +34,16 @@ class Engine(object):
     mouse_x = 0
     mouse_y = 0
 
-    def instance_create(self, module_name, class_name, x=0, y=0):
+    section_tags = set()
+
+    def instance_create(self, module_name, class_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
         inst.x = x
         inst.y = y
+
+        for key, value in kwargs.iteritems():
+            setattr(inst, key, value)
+
         instances.add(inst)
         event_handler.push_handlers(inst)
         try:
@@ -66,13 +71,13 @@ class Engine(object):
         return engine.get_object(module_name, "class", class_name)
 
     def get_sprite(self, module_name, sprite_name):
-        return engine.get_object(module_name, "sprite", sprite_name)
+        return wrappers.Sprite(engine.get_object(module_name, "sprite", sprite_name))
 
     def get_sound(self, module_name, sound_name):
-        return engine.get_object(module_name, "sound", sound_name)
+        return wrappers.Sound(engine.get_object(module_name, "sound", sound_name))
 
     def get_music(self, module_name, music_name):
-        return engine.get_object(module_name, "music", music_name)
+        return wrappers.Music(engine.get_object(module_name, "music", music_name))
 
     def get_resource(self, module_name, resource_name):
         return engine.get_object(module_name, "resource", resource_name)
@@ -134,6 +139,9 @@ class Engine(object):
 
 engine = Engine()
 
+editor_mode = False  # the actual state of being in editor mode or not - updated at the end of a tick
+desired_editor_mode = editor_mode  # what to set _editor_mode to at the end of the tick
+
 buffers = pyglet.image.get_buffer_manager()
 bfr_col = buffers.get_color_buffer()
 
@@ -145,6 +153,8 @@ instances = set()
 #internal dictionaries of names to references
 objects_global = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}}
 objects_local = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}}
+
+loaded_sections = {}
 
 window_invalidated = True
 window_hidden = False
@@ -175,7 +185,8 @@ class EventHandler(pyglet.event.EventDispatcher):
         engine.keys_pressed.clear()
         engine.mouse_released.clear()
         engine.mouse_pressed.clear()
-        engine._editor_mode = engine._desired_editor_mode
+        global editor_mode
+        editor_mode = desired_editor_mode
 
     def draw(self):
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bfr_col.gl_buffer)

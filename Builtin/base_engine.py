@@ -4,7 +4,6 @@ from globals import *
 import globals
 import sys
 import os
-import wrappers
 
 
 #engine interface - all variables visible to the outside world
@@ -35,6 +34,8 @@ class Engine(object):
     mouse_y = 0
 
     section_tags = set()
+
+    current_music = None
 
     def instance_create(self, module_name, class_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
@@ -77,7 +78,7 @@ class Engine(object):
         return wrappers.Sound(engine.get_object(module_name, "sound", sound_name))
 
     def get_music(self, module_name, music_name):
-        return wrappers.Music(engine.get_object(module_name, "music", music_name))
+        return engine.get_object(module_name, "music", music_name)
 
     def get_resource(self, module_name, resource_name):
         return engine.get_object(module_name, "resource", resource_name)
@@ -159,7 +160,6 @@ loaded_sections = {}
 window_invalidated = True
 window_hidden = False
 
-
 #Dispatches events to all objects in the system
 class EventHandler(pyglet.event.EventDispatcher):
     #Update all objects
@@ -168,6 +168,8 @@ class EventHandler(pyglet.event.EventDispatcher):
         if window_hidden:
             window_hidden = globals.window.hidden
             return
+
+        wrappers.music_tick(dt)
 
         engine.fps = 1 / dt
 
@@ -213,3 +215,5 @@ event_handler = EventHandler()
 
 pyglet.clock.schedule_interval(event_handler.tick, 1.0 / engine.working_fps)
 pyglet.clock.set_fps_limit(engine.working_fps)
+
+import wrappers

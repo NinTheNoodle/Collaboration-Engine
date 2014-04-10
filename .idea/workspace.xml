@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/Builtin/wrappers.py" line="29" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Builtin/wrappers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Docopoper.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Docopoper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/base_engine.py" afterPath="$PROJECT_DIR$/Builtin/base_engine.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/camera.py" afterPath="$PROJECT_DIR$/Builtin/camera.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globals.py" afterPath="$PROJECT_DIR$/globals.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/loader.py" afterPath="$PROJECT_DIR$/Builtin/loader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/window.py" afterPath="$PROJECT_DIR$/Builtin/window.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/wrappers.py" afterPath="$PROJECT_DIR$/Builtin/wrappers.py" />
     </list>
     <ignored path="Collaboration Engine.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395353555289" ignored="false" />
-    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396547181859" ignored="false" />
+    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397152688355" ignored="false" />
     <file path="/window.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396289513392" ignored="false" />
-    <file path="/globals.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394460115577" ignored="false" />
+    <file path="/globals.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397158422153" ignored="false" />
     <file path="/engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394821755157" ignored="false" />
     <file path="/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926505602" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926509122" ignored="false" />
     <file path="/object.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394453578029" ignored="false" />
-    <file path="/loader.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396564926767" ignored="false" />
+    <file path="/loader.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397158908714" ignored="false" />
     <file path="/__init__.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394410726344" ignored="false" />
     <file path="/camera.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395591248087" ignored="false" />
-    <file path="/base_engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396554182314" ignored="false" />
+    <file path="/base_engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396893230629" ignored="false" />
     <file path="/lib.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394824729010" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/window.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926993218" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/audio.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926978109" ignored="false" />
     <file path="/audio.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926944203" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395353478285" ignored="false" />
-    <file path="/test.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396559621019" ignored="false" />
+    <file path="/test.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396892450201" ignored="false" />
     <file path="/resource_wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395856481550" ignored="false" />
-    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396436907224" ignored="false" />
+    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397039763146" ignored="false" />
     <file path="/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047405376" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047512704" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/confetti.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047595254" ignored="false" />
     <file path="/confetti.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047593203" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/game_mode.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047253202" ignored="false" />
     <file path="/My First Level.lvl" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396548039441" ignored="false" />
-    <file path="/Section 1.lvl" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396565108027" ignored="false" />
+    <file path="/Section 1.lvl" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396869709091" ignored="false" />
+    <file path="/Section 2.lvl" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396869111742" ignored="false" />
+    <file path="/test2.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396830097527" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Enemies/basic.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397056204019" ignored="false" />
+    <file path="/basic.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397045680800" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/field_box.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397061712427" ignored="false" />
+    <file path="/field_box.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397061669906" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/textbox.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397061650103" ignored="false" />
+    <file path="/textbox.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397061594197" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/create_menu.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397080284266" ignored="false" />
+    <file path="/create_menu.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397080096494" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/message_box.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079062095" ignored="false" />
+    <file path="/message_box.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079058480" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/menu_button.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079494977" ignored="false" />
+    <file path="/menu_button.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079492250" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +76,7 @@
       <file leaf-file-name="loader.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Builtin/loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="50" selection-start="1798" selection-end="1798" vertical-scroll-proportion="-1.7548387">
+            <state line="33" column="41" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.84449244">
               <folding />
             </state>
           </provider>
@@ -70,16 +85,7 @@
       <file leaf-file-name="Section 1.lvl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Levels/My First Level/Section 1.lvl">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="8" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Section 2.lvl" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Levels/My First Level/Section 2.lvl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="14" selection-start="110" selection-end="110" vertical-scroll-proportion="0.0">
+            <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -97,17 +103,10 @@
       <file leaf-file-name="wrappers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="23" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="21" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="75" column="0" selection-start="2129" selection-end="2129" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,16 +123,7 @@
       <file leaf-file-name="base_engine.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="0" selection-start="1892" selection-end="1892" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="camera.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Builtin/camera.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="8" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0">
+            <state line="157" column="20" selection-start="5859" selection-end="5859" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -157,22 +147,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/window/win32/__init__.py" />
         <option value="$PROJECT_DIR$/Builtin/object.py" />
         <option value="$PROJECT_DIR$/Builtin/engine.py" />
         <option value="$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/gl/lib.py" />
-        <option value="$PROJECT_DIR$/globals.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Builtin/resource_wrappers.py" />
         <option value="$PROJECT_DIR$/Builtin/camera.py" />
         <option value="$PROJECT_DIR$/Builtin/window.py" />
         <option value="$PROJECT_DIR$/Levels/My First Level/My First Level.lvl" />
+        <option value="$PROJECT_DIR$/Levels/My First Level/Section 2.lvl" />
+        <option value="$PROJECT_DIR$/Levels/My First Level/Section 1.lvl" />
+        <option value="$PROJECT_DIR$/Levels/My First Level/Res pack test/Objects/test2.py" />
+        <option value="$PROJECT_DIR$/Global/Res pack test/Objects/test.py" />
         <option value="$PROJECT_DIR$/Builtin/base_engine.py" />
         <option value="$PROJECT_DIR$/Builtin/wrappers.py" />
-        <option value="$PROJECT_DIR$/Levels/My First Level/Section 2.lvl" />
-        <option value="$PROJECT_DIR$/Global/Res pack test/Objects/test.py" />
+        <option value="$PROJECT_DIR$/globals.py" />
         <option value="$PROJECT_DIR$/Builtin/loader.py" />
-        <option value="$PROJECT_DIR$/Levels/My First Level/Section 1.lvl" />
       </list>
     </option>
   </component>
@@ -234,10 +224,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Collaboration Engine" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -326,6 +312,58 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Levels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My First Level" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Res pack test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Objects" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Levels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My First Level" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Res pack test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Music" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Builtin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -357,7 +395,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="Errors" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="options.searchVisible" value="true" />
   </component>
@@ -508,7 +546,11 @@
       <created>1395599647075</created>
       <updated>1395599647075</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added level scope loading and some simple wrappers around resource objects.">
+      <created>1396565387023</created>
+      <updated>1396565387023</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -519,12 +561,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20785071" sideWeight="0.6735254" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18532819" sideWeight="0.6735254" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2007722" sideWeight="0.6726272" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39917696" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32647464" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32737276" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32737276" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -534,6 +575,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -578,7 +620,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added global scope loading and level scope loading (which is not called anywhere yet)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added level scope loading and some simple wrappers around resource objects." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -598,60 +640,55 @@
     <MESSAGE value="Added root object" />
     <MESSAGE value="Did stuff, things happened." />
     <MESSAGE value="Added global scope loading and level scope loading (which is not called anywhere yet)." />
+    <MESSAGE value="Added level scope loading and some simple wrappers around resource objects." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="3" />
+      <option name="time" value="6" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/exceptions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="348" column="6" selection-start="11735" selection-end="11735" vertical-scroll-proportion="0.99139786" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/resource.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="591" column="0" selection-start="21165" selection-end="21165" vertical-scroll-proportion="0.33261338" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/gl/lib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="4034" selection-end="4034" vertical-scroll-proportion="0.03655914" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/sprite.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="0" selection-start="7851" selection-end="7851" vertical-scroll-proportion="0.5633484" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/media/riff.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="0" selection-start="6392" selection-end="6392" vertical-scroll-proportion="0.03655914" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/globals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="36" selection-start="122" selection-end="122" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/camera.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="8" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="8" column="8" selection-start="97" selection-end="97" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/media/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1239" column="28" selection-start="40013" selection-end="40013" vertical-scroll-proportion="1.027957" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="21" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="2" column="21" selection-start="47" selection-end="47" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4164" column="8" selection-start="141342" selection-end="141342" vertical-scroll-proportion="0.5526882" />
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/pyglet/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/My First Level/Section 2.lvl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="6" selection-start="88" selection-end="88" vertical-scroll-proportion="0.21935484" />
+      </provider>
+    </entry>
+    <entry file="file://C:/Python27/Lib/site-packages/pyglet/media/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="836" column="29" selection-start="26462" selection-end="26462" vertical-scroll-proportion="0.0043010754" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/window.py">
@@ -661,16 +698,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
+    <entry file="file://$PROJECT_DIR$/Levels/My First Level/Res pack test/Objects/test2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="1892" selection-end="1892" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="23" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
+        <state line="27" column="90" selection-start="858" selection-end="858" vertical-scroll-proportion="0.41505376">
           <folding />
         </state>
       </provider>
@@ -682,30 +712,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/My First Level/Section 2.lvl">
+    <entry file="file://$PROJECT_DIR$/globals.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="14" selection-start="110" selection-end="110" vertical-scroll-proportion="0.0">
+        <state line="3" column="0" selection-start="40" selection-end="40" vertical-scroll-proportion="0.11015119">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/__builtin__.py">
+    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="4" selection-start="6167" selection-end="6167" vertical-scroll-proportion="0.33333334">
+        <state line="75" column="0" selection-start="2129" selection-end="2129" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="157" column="20" selection-start="5859" selection-end="5859" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Levels/My First Level/Section 1.lvl">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="8" selection-start="68" selection-end="68" vertical-scroll-proportion="0.0">
+        <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="50" selection-start="1798" selection-end="1798" vertical-scroll-proportion="-1.7548387">
+        <state line="33" column="41" selection-start="1103" selection-end="1103" vertical-scroll-proportion="0.84449244">
           <folding />
         </state>
       </provider>

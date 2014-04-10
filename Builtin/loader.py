@@ -4,6 +4,7 @@ from globals import *
 import glob
 import base_engine
 import os
+import wrappers
 
 
 class Loader:
@@ -11,20 +12,26 @@ class Loader:
     def goto_section(self, section_name):
         tags, section = base_engine.loaded_sections[section_name]
         engine.section_tags = tags
-        for module_name, class_name, x, y, settings in section:
-            engine.instance_create(module_name, class_name, x, y, **settings)
+
+        for module_name, class_name, settings in section:
+            engine.instance_create(module_name, class_name, **settings)
 
 
-    def level_load(self, name):
+    def level_load(self, name, section_name=None):
         folder_load(engine.path + "/Levels/" + name, base_engine.objects_local)
         for section in glob.glob(engine.path + "/Levels/" + name + "/*.lvl"):
             section_load(section)
 
-        #Load the first section listed as a start section
-        for section_name, section in base_engine.loaded_sections.iteritems():
-            if "StartSection" in section[0]:
-                self.goto_section(section_name)
-                break
+        if section_name is None:
+            #Load the first section listed as a start section
+            for section_name, section in base_engine.loaded_sections.iteritems():
+                if "StartSection" in section[0]:
+                    self.goto_section(section_name)
+                    break
+        else:
+            self.goto_section(section_name)
+
+        print base_engine.loaded_sections
 
     def global_load(self):
         folder_load(engine.path + "/Global", base_engine.objects_global)
@@ -40,38 +47,45 @@ def section_load(path):
 
     new_object = None
     new_object_class = None
+
     with open(path) as fl:
         for line in fl:
             line = line.rstrip('\r\n')
 
-            if line.strip() == "":
+            if line == "":
                 continue
 
-            if line[0] == " ":
+            line_type = line[0]
+            line = line[1:]
+
+            if line_type == " ":
                 #Attempt to add a new setting change to the object - ignoring invalid lines
                 if new_object is None: continue
                 try:
-                    key, value = line[1:].split(":", 1)
+                    key, value = line.split(":", 1)
                 except ValueError: continue
+                #if key in ("x", "y"): continue;
 
-                new_object[4][key] = eval(value, {})
+                new_object[2][key] = eval(value, {})
 
-            elif line[0] == "*":
+            elif line_type == "*":
                 #Apply section tags that aren't blank
                 if len(line) > 1:
-                    section_tags.add(line[1:])
-            else:
+                    section_tags.add(line)
+            elif line_type == ">":
                 #Attempt to add a new object - ignoring invalid lines
                 new_object = None
                 try:
-                    module, object_name, x, y = line.split("|", 3)
+                    module, object_name = line.split("|", 1)
                 except ValueError: continue
                 try:
                     new_object_class = engine.get_class(module, object_name)
                 except KeyError: continue
 
-                new_object = (module, object_name, int(x), int(y), {})
+                new_object = (module, object_name, {})
                 section_list.append(new_object)
+            elif line_type == "#":
+                continue #Ignore comments
 
 
 
@@ -86,7 +100,7 @@ def resource_pack_load(path, dictionary):
             dictionary["sound"][(os.path.basename(path), os.path.basename(sound).split(".")[0])] = snd
 
         for music in glob.glob(path + "/Music/*.*"):
-            mus = pyglet.media.load(music, streaming=True)
+            mus = wrappers.Music(pyglet.media.load(music, streaming=True))
             dictionary["music"][(os.path.basename(path), os.path.basename(music).split(".")[0])] = mus
 
         for resource in glob.glob(path + "/Resources/*.*"):

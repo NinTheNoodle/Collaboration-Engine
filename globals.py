@@ -2,6 +2,8 @@ __author__ = 'Docopoper'
 
 import pyglet
 
+import numpy
+
 from pyglet.gl import *
 
 from math import *

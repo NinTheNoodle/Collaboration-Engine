@@ -42,7 +42,7 @@ def section_load(path):
     section_name = os.path.basename(path).split(".")[0]
 
     section_list = []
-    section_tags = set()
+    section_tags = {}
     base_engine.loaded_sections[section_name] = (section_tags, section_list)
 
     new_object = None
@@ -71,7 +71,12 @@ def section_load(path):
             elif line_type == "*":
                 #Apply section tags that aren't blank
                 if len(line) > 1:
-                    section_tags.add(line)
+                    data = line.split(":", 1)
+
+                    if len(data) >= 2:
+                        section_tags[data[0]] = eval(data[1])
+                    else:
+                        section_tags[data[0]] = True
             elif line_type == ">":
                 #Attempt to add a new object - ignoring invalid lines
                 new_object = None

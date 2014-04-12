@@ -16,4 +16,6 @@ from Builtin.base_engine import engine
 
 from Builtin.window import window
 
+from Builtin.parent_object import GameObject
+
 from Builtin.loader import loader

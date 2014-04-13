@@ -13,6 +13,9 @@ class Engine(object):
     working_fps = 30
     fps = working_fps
 
+    frame = 0
+    time = 0
+
     @property
     def editor_mode(self):
         return editor_mode
@@ -41,15 +44,42 @@ class Engine(object):
         inst = engine.get_class(module_name, class_name)()
         inst.x_start = inst.x = x
         inst.x_start = inst.y = y
+        inst.module_name = module_name
+        inst.class_name = class_name
 
         for key, value in kwargs.iteritems():
             setattr(inst, key, value)
 
-        engine.get_instances(module_name, class_name).add(inst)
+        engine.get_all_instances(module_name, class_name).add(inst)
         event_handler.push_handlers(inst)
         inst.on_create()
 
         return inst
+
+    def instance_destroy(self, instance):
+        event_handler.remove_handlers(instance)
+        try:
+            engine.get_all_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_active_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_inactive_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_visible_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_invisible_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_enabled_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_disabled_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+
 
     #find the currently scoped class of the given name
     def get_object(self, module_name, object_type, object_name):
@@ -78,8 +108,26 @@ class Engine(object):
     def get_resource(self, module_name, resource_name):
         return engine.get_object(module_name, "resource", resource_name)
 
-    def get_instances(self, module_name, class_name):
+    def get_all_instances(self, module_name, class_name):
         return engine.get_object(module_name, "instance", class_name)
+
+    def get_active_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "active instance", class_name)
+
+    def get_inactive_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "inactive instance", class_name)
+
+    def get_visible_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "visible instance", class_name)
+
+    def get_invisible_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "invisible instance", class_name)
+
+    def get_enabled_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "enabled instance", class_name)
+
+    def get_disabled_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "disabled instance", class_name)
     #endregion
 
     #region Class registration functions
@@ -90,6 +138,12 @@ class Engine(object):
     #region register_object_local convenience methods
     def register_class_local(self, module_name, class_name, class_ref):
         engine.register_object_local(module_name, "instance", class_name, set())
+        engine.register_object_local(module_name, "active instance", class_name, set())
+        engine.register_object_local(module_name, "inactive instance", class_name, set())
+        engine.register_object_local(module_name, "visible instance", class_name, set())
+        engine.register_object_local(module_name, "invisible instance", class_name, set())
+        engine.register_object_local(module_name, "enabled instance", class_name, set())
+        engine.register_object_local(module_name, "disabled instance", class_name, set())
         engine.register_object_local(module_name, "class", class_name, class_ref)
 
     def register_sprite_local(self, module_name, sprite_name, image_ref):
@@ -113,6 +167,12 @@ class Engine(object):
     #region register_object_local convenience methods
     def register_class_global(self, module_name, class_name, class_ref):
         engine.register_object_global(module_name, "instance", class_name, set())
+        engine.register_object_global(module_name, "active instance", class_name, set())
+        engine.register_object_global(module_name, "inactive instance", class_name, set())
+        engine.register_object_global(module_name, "visible instance", class_name, set())
+        engine.register_object_global(module_name, "invisible instance", class_name, set())
+        engine.register_object_global(module_name, "enabled instance", class_name, set())
+        engine.register_object_global(module_name, "disabled instance", class_name, set())
         engine.register_object_global(module_name, "class", class_name, class_ref)
 
     def register_sprite_global(self, module_name, sprite_name, image_ref):
@@ -150,8 +210,11 @@ bfr_col = buffers.get_color_buffer()
 tex_draw = None
 
 #internal dictionaries of names to references
-objects_global = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}, "instance": {}}
-objects_local = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}, "instance": {}}
+dictionary_template = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {},
+                       "instance": {}, "active instance": {}, "inactive instance": {}, "visible instance": {},
+                       "invisible instance": {}, "enabled instance": {}, "disabled instance": {}}
+objects_global = dictionary_template.copy()
+objects_local = dictionary_template.copy()
 
 loaded_sections = {}
 
@@ -170,6 +233,8 @@ class EventHandler(pyglet.event.EventDispatcher):
         wrappers.music_tick(dt)
 
         engine.fps = 1 / dt
+        engine.frame += 1
+        engine.time += dt
 
         if engine.editor_mode:
             camera.view_width = globals.window.width

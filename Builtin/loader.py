@@ -18,6 +18,7 @@ class Loader:
 
 
     def level_load(self, name, section_name=None):
+        base_engine.objects_local = base_engine.dictionary_template.copy()
         folder_load(engine.path + "/Levels/" + name, base_engine.objects_local)
         for section in glob.glob(engine.path + "/Levels/" + name + "/*.lvl"):
             section_load(section)
@@ -30,8 +31,6 @@ class Loader:
                     break
         else:
             self.goto_section(section_name)
-
-        print base_engine.loaded_sections
 
     def global_load(self):
         folder_load(engine.path + "/Global", base_engine.objects_global)

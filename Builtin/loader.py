@@ -96,27 +96,30 @@ def section_load(path):
 
 def resource_pack_load(path, dictionary):
 
+        module_name = os.path.basename(path)
+
         for spr in glob.glob(path + "/Sprites/*.png"):
             img = pyglet.image.load(spr)
-            dictionary["sprite"][(os.path.basename(path), os.path.basename(spr).split(".")[0])] = img
+            dictionary["sprite"][(module_name, os.path.basename(spr).split(".")[0])] = img
 
         for sound in glob.glob(path + "/Sounds/*.wav"):
             snd = pyglet.media.load(sound, streaming=False)
-            dictionary["sound"][(os.path.basename(path), os.path.basename(sound).split(".")[0])] = snd
+            dictionary["sound"][(module_name, os.path.basename(sound).split(".")[0])] = snd
 
         for music in glob.glob(path + "/Music/*.*"):
             mus = wrappers.Music(pyglet.media.load(music, streaming=True))
-            dictionary["music"][(os.path.basename(path), os.path.basename(music).split(".")[0])] = mus
+            dictionary["music"][(module_name, os.path.basename(music).split(".")[0])] = mus
 
         for resource in glob.glob(path + "/Resources/*.*"):
-            dictionary["resource"][(os.path.basename(path), os.path.basename(resource).split(".")[0])] = os.path.normcase(resource)
+            dictionary["resource"][(module_name, os.path.basename(resource).split(".")[0])] = os.path.normcase(resource)
 
         for obj in glob.glob(path + "/Objects/*.py"):
             object_name = os.path.basename(obj).split(".")[0]
             file_dict = {}
             execfile(obj, file_dict)
             try:
-                dictionary["class"][(os.path.basename(path), object_name)] = file_dict[object_name]
+                dictionary["class"][(module_name, object_name)] = file_dict[object_name]
+                dictionary["instance"][(module_name, object_name)] = set()
             except KeyError: pass
 
 

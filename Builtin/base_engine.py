@@ -39,20 +39,15 @@ class Engine(object):
 
     def instance_create(self, module_name, class_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
-        inst.x = x
-        inst.y = y
+        inst.x_start = inst.x = x
+        inst.x_start = inst.y = y
 
         for key, value in kwargs.iteritems():
             setattr(inst, key, value)
 
-        instances.add(inst)
+        engine.get_instances(module_name, class_name).add(inst)
         event_handler.push_handlers(inst)
-        try:
-            inst.on_create()
-        except AttributeError as e:
-            #ensure that only exceptions that were created by the create function not existing are ignored
-            if e.message != inst.__class__.__name__ + " instance has no attribute 'on_create'":
-                raise
+        inst.on_create()
 
         return inst
 
@@ -64,7 +59,7 @@ class Engine(object):
             try:
                 return objects_global[object_type][(module_name, object_name)]
             except KeyError:
-                you_done_goofed = "Unknown class '" + str(object_name) + "' in module '" + str(module_name) + "'"
+                you_done_goofed = "Unknown " + object_type + " '" + str(object_name) + "' in module '" + str(module_name) + "'"
                 raise KeyError(you_done_goofed)
 
     #region get_object convenience methods
@@ -82,6 +77,9 @@ class Engine(object):
 
     def get_resource(self, module_name, resource_name):
         return engine.get_object(module_name, "resource", resource_name)
+
+    def get_instances(self, module_name, class_name):
+        return engine.get_object(module_name, "instance", class_name)
     #endregion
 
     #region Class registration functions
@@ -91,40 +89,43 @@ class Engine(object):
 
     #region register_object_local convenience methods
     def register_class_local(self, module_name, class_name, class_ref):
-        return engine.register_object_local(module_name, "class", class_name, class_ref)
+        engine.register_object_local(module_name, "instance", class_name, set())
+        engine.register_object_local(module_name, "class", class_name, class_ref)
 
     def register_sprite_local(self, module_name, sprite_name, image_ref):
-        return engine.register_object_local(module_name, "sprite", sprite_name, image_ref)
+        engine.register_object_local(module_name, "sprite", sprite_name, image_ref)
 
     def register_sound_local(self, module_name, sound_name, sound_ref):
-        return engine.register_object_local(module_name, "sound", sound_name, sound_ref)
+        engine.register_object_local(module_name, "sound", sound_name, sound_ref)
 
     def register_music_local(self, module_name, music_name, music_ref):
-        return engine.register_object_local(module_name, "music", music_name, music_ref)
+        engine.register_object_local(module_name, "music", music_name, music_ref)
 
     def register_resource_local(self, module_name, resource_name, file_name):
-        return engine.register_object_local(module_name, "resource", resource_name, file_name)
+        engine.register_object_local(module_name, "resource", resource_name, file_name)
     #endregion
 
     #register a new object on the global scope
     def register_object_global(self, module_name, object_type, object_name, object_ref):
         objects_global[object_type][(module_name, object_name)] = object_ref
+        object_ref.is_local = False
 
     #region register_object_local convenience methods
     def register_class_global(self, module_name, class_name, class_ref):
-        return engine.register_object_global(module_name, "class", class_name, class_ref)
+        engine.register_object_global(module_name, "instance", class_name, set())
+        engine.register_object_global(module_name, "class", class_name, class_ref)
 
     def register_sprite_global(self, module_name, sprite_name, image_ref):
-        return engine.register_object_global(module_name, "sprite", sprite_name, image_ref)
+        engine.register_object_global(module_name, "sprite", sprite_name, image_ref)
 
     def register_sound_global(self, module_name, sound_name, sound_ref):
-        return engine.register_object_global(module_name, "sound", sound_name, sound_ref)
+        engine.register_object_global(module_name, "sound", sound_name, sound_ref)
 
     def register_music_global(self, module_name, music_name, file_name):
-        return engine.register_object_global(module_name, "music", music_name, file_name)
+        engine.register_object_global(module_name, "music", music_name, file_name)
 
     def register_resource_global(self, module_name, resource_name, file_name):
-        return engine.register_object_global(module_name, "resource", resource_name, file_name)
+        engine.register_object_global(module_name, "resource", resource_name, file_name)
     #endregion
 
     #endregion
@@ -148,12 +149,9 @@ bfr_col = buffers.get_color_buffer()
 
 tex_draw = None
 
-#internal set of existing instances
-instances = set()
-
 #internal dictionaries of names to references
-objects_global = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}}
-objects_local = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}}
+objects_global = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}, "instance": {}}
+objects_local = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {}, "instance": {}}
 
 loaded_sections = {}
 
@@ -176,9 +174,13 @@ class EventHandler(pyglet.event.EventDispatcher):
         if engine.editor_mode:
             camera.view_width = globals.window.width
             camera.view_height = globals.window.height
+            self.dispatch_event("on_editor_begin_tick")
             self.dispatch_event("on_editor_tick")
+            self.dispatch_event("on_editor_end_tick")
         else:
+            self.dispatch_event("on_begin_tick")
             self.dispatch_event("on_tick")
+            self.dispatch_event("on_end_tick")
         engine.validate_window()
         self.draw()
 
@@ -206,8 +208,12 @@ class EventHandler(pyglet.event.EventDispatcher):
         glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0)
 
 
+EventHandler.register_event_type("on_begin_tick")
+EventHandler.register_event_type("on_editor_begin_tick")
 EventHandler.register_event_type("on_tick")
 EventHandler.register_event_type("on_editor_tick")
+EventHandler.register_event_type("on_end_tick")
+EventHandler.register_event_type("on_editor_end_tick")
 EventHandler.register_event_type("on_draw")
 EventHandler.register_event_type("on_editor_draw")
 

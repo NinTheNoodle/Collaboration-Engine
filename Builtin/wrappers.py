@@ -4,10 +4,29 @@ import base_engine
 __author__ = 'Docopoper'
 
 
-class Sprite:
+class Sprite(object):
 
     def __init__(self, spr):
         self.spr = pyglet.sprite.Sprite(spr)
+        self.width = self.spr.width
+        self.height = self.spr.height
+        self.bbox = (-self.width / 2, -self.height / 2, self.width / 2, self.height / 2)
+
+    #wrapper properties for the underlying sprite
+    @property
+    def visible(self): return self.spr.visible
+    @visible.setter
+    def visible(self, value): self.spr.visible = value
+
+    @property
+    def scale(self): return self.spr.scale
+    @scale.setter
+    def scale(self, value): self.spr.scale = value
+
+    @property
+    def opacity(self): return self.spr.opacity
+    @opacity.setter
+    def opacity(self, value): self.spr.opacity = value
 
     def draw(self, x, y):
         self.spr.x, self.spr.y = x, y
@@ -38,6 +57,11 @@ class Music:
             base_engine.engine.current_music.player.pause()
             base_engine.engine.current_music.player.seek(0)
 
+        self.player.volume = 1
+        global transitioning_music_from, transitioning_music_to, transitioning_music_time
+        transitioning_music_from = set()
+        transitioning_music_to = None
+        transitioning_music_time = 0
         self.player.play()
 
         base_engine.engine.current_music = self
@@ -52,8 +76,9 @@ class Music:
 
         self.player.volume = 0
         #seek to the relative position on the other track - accounting for length differences
-        start_pos = (0.1 + current_music.player.time) * (self.mus.duration / current_music.mus.duration)
-        self.player.seek(start_pos - 0.1)
+        if self.mus.duration is not None and current_music.mus.duration is not None:
+            start_pos = (0.1 + current_music.player.time) * (self.mus.duration / current_music.mus.duration)
+            self.player.seek(start_pos - 0.1)
 
         self.player.play()
 
@@ -87,6 +112,7 @@ def music_tick(dt):
         music.player.volume -= dt / transitioning_music_time
         if music.player.volume <= 0:
             music.player.pause()
+            music.player.seek(0)
             music.player.volume = 1
             transitioning_music_from.remove(music)
 

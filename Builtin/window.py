@@ -41,7 +41,7 @@ def on_draw():
     globals.camera.projection_default()
     try:
         base_engine.tex_draw.blit(0, 0)
-    except AttributeError: engine.validate_window()
+    except AttributeError: engine._validate_window()
 
 
 @window.event
@@ -77,7 +77,7 @@ def on_mouse_release(x, y, button, modifiers):
 @window.event
 def on_mouse_motion(x, y, dx, dy):
     engine.mouse_x = x * (float(camera.view_width) / window.width) - camera.x - camera.view_width / 2
-    engine.mouse_y = y * (float(camera.view_height) / window.height) - camera.y - camera.view_height / 2
+    engine.mouse_y = camera.view_height / 2 - (y * (float(camera.view_height) / window.height) - camera.y)
 
 
 @window.event

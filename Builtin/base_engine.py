@@ -16,15 +16,6 @@ class Engine(object):
     frame = 0
     time = 0
 
-    @property
-    def editor_mode(self):
-        return editor_mode
-
-    @editor_mode.setter
-    def editor_mode(self, value):
-        global desired_editor_mode
-        desired_editor_mode = value
-
     keys_down = set()
     keys_pressed = set()
     keys_released = set()
@@ -37,8 +28,17 @@ class Engine(object):
     mouse_y = 0
 
     section_tags = set()
+    visibility_regions = []
+    activity_regions = []
 
     current_music = None
+
+    @property
+    def editor_mode(self): return editor_mode
+    @editor_mode.setter
+    def editor_mode(self, value):
+        global desired_editor_mode
+        desired_editor_mode = value
 
     def instance_create(self, module_name, class_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
@@ -47,31 +47,38 @@ class Engine(object):
         inst.module_name = module_name
         inst.class_name = class_name
 
+        engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
+        engine.get_invisible_instances(inst.module_name, inst.class_name).add(inst)
+        engine.get_inactive_instances(inst.module_name, inst.class_name).add(inst)
+
         for key, value in kwargs.iteritems():
             setattr(inst, key, value)
 
         engine.get_all_instances(module_name, class_name).add(inst)
         event_handler.push_handlers(inst)
+        self.instance_update_handler_draw(inst)
+        self.instance_update_handler_tick(inst)
         inst.on_create()
 
         return inst
 
     def instance_destroy(self, instance):
+        instance.on_destroy()
         event_handler.remove_handlers(instance)
         try:
             engine.get_all_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
         try:
-            engine.get_active_instances(instance.module_name, instance.class_name).remove(instance)
-        except KeyError: pass
-        try:
             engine.get_inactive_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
         try:
-            engine.get_visible_instances(instance.module_name, instance.class_name).remove(instance)
+            engine.get_active_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
         try:
             engine.get_invisible_instances(instance.module_name, instance.class_name).remove(instance)
+        except KeyError: pass
+        try:
+            engine.get_visible_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
         try:
             engine.get_enabled_instances(instance.module_name, instance.class_name).remove(instance)
@@ -80,9 +87,84 @@ class Engine(object):
             engine.get_disabled_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
 
+    def activity_region(self, x1, y1, x2, y2):
+        self.activity_regions.append((x1, y1, x2, y2))
+
+    def visibility_region(self, x1, y1, x2, y2):
+        self.visibility_regions.append((x1, y1, x2, y2))
+
+    #region Instance state manipulation functions
+    def instance_disable(self, inst):
+        try:
+            engine.get_enabled_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_disabled_instances(inst.module_name, inst.class_name).add(inst)
+        inst._disabled = True
+        self.instance_update_handler_draw(inst)
+        self.instance_update_handler_tick(inst)
+        inst.on_disable()
+
+    def instance_enable(self, inst):
+        try:
+            engine.get_disabled_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
+        inst._disabled = False
+        self.instance_update_handler_draw(inst)
+        self.instance_update_handler_tick(inst)
+        inst.on_enable()
+
+    def instance_activate(self, inst):
+        try:
+            engine.get_inactive_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_active_instances(inst.module_name, inst.class_name).add(inst)
+        inst._active = True
+        self.instance_update_handler_tick(inst)
+        inst.on_activate()
+
+    def instance_deactivate(self, inst):
+        try:
+            engine.get_active_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_inactive_instances(inst.module_name, inst.class_name).add(inst)
+        inst._active = False
+        self.instance_update_handler_tick(inst)
+        inst.on_deactivate()
+
+    def instance_show(self, inst):
+        try:
+            engine.get_invisible_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_visible_instances(inst.module_name, inst.class_name).add(inst)
+        inst._visible = True
+        self.instance_update_handler_draw(inst)
+        inst.on_visible()
+
+    def instance_hide(self, inst):
+        try:
+            engine.get_visible_instances(inst.module_name, inst.class_name).remove(inst)
+        except KeyError: pass
+        engine.get_invisible_instances(inst.module_name, inst.class_name).add(inst)
+        inst._visible = False
+        self.instance_update_handler_draw(inst)
+        inst.on_invisible()
+
+    def instance_update_handler_draw(self, inst):
+        if not inst.disabled and inst.visible:
+            event_handler.push_handlers(inst.on_draw)
+        else:
+            event_handler.remove_handlers(inst.on_draw)
+
+    def instance_update_handler_tick(self, inst):
+        if not inst.disabled and inst.active:
+            event_handler.push_handlers(inst.on_tick)
+        else:
+            event_handler.remove_handlers(inst.on_tick)
+    #endregion
 
     #find the currently scoped class of the given name
-    def get_object(self, module_name, object_type, object_name):
+    def _get_object(self, module_name, object_type, object_name):
         try:
             return objects_local[object_type][(module_name, object_name)]
         except KeyError:
@@ -93,111 +175,163 @@ class Engine(object):
                 raise KeyError(you_done_goofed)
 
     #region get_object convenience methods
-    def get_class(self, module_name, class_name):
-        return engine.get_object(module_name, "class", class_name)
+    def get_class(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set(objects_local["class"].values()) | set(objects_global["class"].values())
+        return engine._get_object(module_name, "class", class_name)
 
-    def get_sprite(self, module_name, sprite_name):
-        return wrappers.Sprite(engine.get_object(module_name, "sprite", sprite_name))
+    def get_sprite(self, module_name="*", sprite_name=None):
+        if module_name == "*":
+            return  set(objects_local["sprite"].values()) | set(objects_global["sprite"].values())
+        return wrappers.Sprite(engine._get_object(module_name, "sprite", sprite_name))
 
-    def get_sound(self, module_name, sound_name):
-        return wrappers.Sound(engine.get_object(module_name, "sound", sound_name))
+    def get_sound(self, module_name="*", sound_name=None):
+        if module_name == "*":
+            return  set(objects_local["sound"].values()) | set(objects_global["sound"].values())
+        return wrappers.Sound(engine._get_object(module_name, "sound", sound_name))
 
-    def get_music(self, module_name, music_name):
-        return engine.get_object(module_name, "music", music_name)
+    def get_music(self, module_name="*", music_name=None):
+        if module_name == "*":
+            return  set(objects_local["music"].values()) | set(objects_global["music"].values())
+        return engine._get_object(module_name, "music", music_name)
 
-    def get_resource(self, module_name, resource_name):
-        return engine.get_object(module_name, "resource", resource_name)
+    def get_resource(self, module_name="*", resource_name=None):
+        if module_name == "*":
+            return  set(objects_local["resource"].values()) | set(objects_global["resource"].values())
+        return engine._get_object(module_name, "resource", resource_name)
 
-    def get_all_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "instance", class_name)
+    def get_all_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["instance"].values() + objects_global["instance"].values() for x in y])
+        return engine._get_object(module_name, "instance", class_name)
 
-    def get_active_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "active instance", class_name)
+    def get_active_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["active instance"].values() + objects_global["active instance"].values() for x in y])
+        return engine._get_object(module_name, "active instance", class_name)
 
-    def get_inactive_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "inactive instance", class_name)
+    def get_inactive_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["inactive instance"].values() + objects_global["inactive instance"].values() for x in y])
+        return engine._get_object(module_name, "inactive instance", class_name)
 
-    def get_visible_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "visible instance", class_name)
+    def get_visible_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["visible instance"].values() + objects_global["visible instance"].values() for x in y])
+        return engine._get_object(module_name, "visible instance", class_name)
 
-    def get_invisible_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "invisible instance", class_name)
+    def get_invisible_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["invisible instance"].values() + objects_global["invisible instance"].values() for x in y])
+        return engine._get_object(module_name, "invisible instance", class_name)
 
-    def get_enabled_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "enabled instance", class_name)
+    def get_enabled_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["enabled instance"].values() + objects_global["enabled instance"].values() for x in y])
+        return engine._get_object(module_name, "enabled instance", class_name)
 
-    def get_disabled_instances(self, module_name, class_name):
-        return engine.get_object(module_name, "disabled instance", class_name)
+    def get_disabled_instances(self, module_name="*", class_name=None):
+        if module_name == "*":
+            return  set([x for y in objects_local["disabled instance"].values() + objects_global["disabled instance"].values() for x in y])
+        return engine._get_object(module_name, "disabled instance", class_name)
     #endregion
 
     #region Class registration functions
+
+    def _register_class_dict(self, module_name, class_name, class_ref, dictionary):
+        dictionary["class"][(module_name, class_name)] = class_ref
+        dictionary["instance"][(module_name, class_name)] = set()
+        dictionary["active instance"][(module_name, class_name)] = set()
+        dictionary["inactive instance"][(module_name, class_name)] = set()
+        dictionary["visible instance"][(module_name, class_name)] = set()
+        dictionary["invisible instance"][(module_name, class_name)] = set()
+        dictionary["enabled instance"][(module_name, class_name)] = set()
+        dictionary["disabled instance"][(module_name, class_name)] = set()
+
     #register a new object on the local scope
-    def register_object_local(self, module_name, object_type, object_name, object_ref):
+    def _register_object_local(self, module_name, object_type, object_name, object_ref):
         objects_local[object_type][(module_name, object_name)] = object_ref
 
     #region register_object_local convenience methods
     def register_class_local(self, module_name, class_name, class_ref):
-        engine.register_object_local(module_name, "instance", class_name, set())
-        engine.register_object_local(module_name, "active instance", class_name, set())
-        engine.register_object_local(module_name, "inactive instance", class_name, set())
-        engine.register_object_local(module_name, "visible instance", class_name, set())
-        engine.register_object_local(module_name, "invisible instance", class_name, set())
-        engine.register_object_local(module_name, "enabled instance", class_name, set())
-        engine.register_object_local(module_name, "disabled instance", class_name, set())
-        engine.register_object_local(module_name, "class", class_name, class_ref)
+        self._register_class_dict(module_name, class_name, class_ref, objects_local)
 
     def register_sprite_local(self, module_name, sprite_name, image_ref):
-        engine.register_object_local(module_name, "sprite", sprite_name, image_ref)
+        engine._register_object_local(module_name, "sprite", sprite_name, image_ref)
 
     def register_sound_local(self, module_name, sound_name, sound_ref):
-        engine.register_object_local(module_name, "sound", sound_name, sound_ref)
+        engine._register_object_local(module_name, "sound", sound_name, sound_ref)
 
     def register_music_local(self, module_name, music_name, music_ref):
-        engine.register_object_local(module_name, "music", music_name, music_ref)
+        engine._register_object_local(module_name, "music", music_name, music_ref)
 
     def register_resource_local(self, module_name, resource_name, file_name):
-        engine.register_object_local(module_name, "resource", resource_name, file_name)
+        engine._register_object_local(module_name, "resource", resource_name, file_name)
     #endregion
 
     #register a new object on the global scope
-    def register_object_global(self, module_name, object_type, object_name, object_ref):
+    def _register_object_global(self, module_name, object_type, object_name, object_ref):
         objects_global[object_type][(module_name, object_name)] = object_ref
         object_ref.is_local = False
 
     #region register_object_local convenience methods
     def register_class_global(self, module_name, class_name, class_ref):
-        engine.register_object_global(module_name, "instance", class_name, set())
-        engine.register_object_global(module_name, "active instance", class_name, set())
-        engine.register_object_global(module_name, "inactive instance", class_name, set())
-        engine.register_object_global(module_name, "visible instance", class_name, set())
-        engine.register_object_global(module_name, "invisible instance", class_name, set())
-        engine.register_object_global(module_name, "enabled instance", class_name, set())
-        engine.register_object_global(module_name, "disabled instance", class_name, set())
-        engine.register_object_global(module_name, "class", class_name, class_ref)
+        self._register_class_dict(module_name, class_name, class_ref, objects_global)
 
     def register_sprite_global(self, module_name, sprite_name, image_ref):
-        engine.register_object_global(module_name, "sprite", sprite_name, image_ref)
+        engine._register_object_global(module_name, "sprite", sprite_name, image_ref)
 
     def register_sound_global(self, module_name, sound_name, sound_ref):
-        engine.register_object_global(module_name, "sound", sound_name, sound_ref)
+        engine._register_object_global(module_name, "sound", sound_name, sound_ref)
 
     def register_music_global(self, module_name, music_name, file_name):
-        engine.register_object_global(module_name, "music", music_name, file_name)
+        engine._register_object_global(module_name, "music", music_name, file_name)
 
     def register_resource_global(self, module_name, resource_name, file_name):
-        engine.register_object_global(module_name, "resource", resource_name, file_name)
+        engine._register_object_global(module_name, "resource", resource_name, file_name)
     #endregion
 
     #endregion
 
     #recreate the drawing texture if the window has been resized
-    def validate_window(self):
+    def _validate_window(self):
         global window_invalidated
 
         if window_invalidated:
             global tex_draw
             tex_draw = pyglet.image.Texture.create_for_size(GL_TEXTURE_2D, globals.window.width, globals.window.height, internalformat=GL_RGB)
             window_invalidated = False
+
+    def _instances_update_states(self):
+        #go through each instance and check to see if it should be active and visible
+        for inst in self.get_all_instances():
+            active = inst.always_active
+            visible = inst.always_visible
+
+            if not active:
+                for x1, y1, x2, y2 in self.activity_regions:
+                    if (inst.bbox_active[0] + inst.x < x2
+                    and inst.bbox_active[1] + inst.y < y2
+                    and inst.bbox_active[2] + inst.x > x1
+                    and inst.bbox_active[3] + inst.y > y1):
+                        active = True
+                        break
+
+            if not visible:
+                for x1, y1, x2, y2 in self.visibility_regions:
+                    if (inst.bbox_visible[0] + inst.x < x2
+                    and inst.bbox_visible[1] + inst.y < y2
+                    and inst.bbox_visible[2] + inst.x > x1
+                    and inst.bbox_visible[3] + inst.y > y1):
+                        visible = True
+                        break
+
+            inst.active = active
+            inst.visible = visible
+
+        self.activity_regions = []
+        self.visibility_regions = []
+
 
 engine = Engine()
 
@@ -236,6 +370,10 @@ class EventHandler(pyglet.event.EventDispatcher):
         engine.frame += 1
         engine.time += dt
 
+        engine._instances_update_states()
+
+        camera.on_tick()
+
         if engine.editor_mode:
             camera.view_width = globals.window.width
             camera.view_height = globals.window.height
@@ -246,7 +384,8 @@ class EventHandler(pyglet.event.EventDispatcher):
             self.dispatch_event("on_begin_tick")
             self.dispatch_event("on_tick")
             self.dispatch_event("on_end_tick")
-        engine.validate_window()
+
+        engine._validate_window()
         self.draw()
 
         #Clear the inputs from last frame

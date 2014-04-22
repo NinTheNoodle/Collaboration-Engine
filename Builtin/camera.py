@@ -9,6 +9,19 @@ class Camera:
     y = 0
     view_width = 800
     view_height = 600
+    active_width = 800
+    active_height = 600
+
+    def on_tick(self):
+        globals.engine.visibility_region(self.x - self.view_width / 2,
+                                         self.y - self.view_height / 2,
+                                         self.x + self.view_width / 2,
+                                         self.y + self.view_height / 2)
+
+        globals.engine.activity_region(self.x - self.active_width / 2,
+                                       self.y - self.active_height / 2,
+                                       self.x + self.active_width / 2,
+                                       self.y + self.active_height / 2)
 
     def projection_world(self):
         try:
@@ -21,8 +34,8 @@ class Camera:
             gluOrtho2D(
                 camera.x - camera.view_width / 2,
                 camera.x + camera.view_width / 2,
-                camera.y - camera.view_height / 2,
-                camera.y + camera.view_height / 2)
+                camera.y + camera.view_height / 2,
+                camera.y - camera.view_height / 2)
 
             glMatrixMode(GL_MODELVIEW)
 

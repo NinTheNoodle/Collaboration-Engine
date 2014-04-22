@@ -10,6 +10,8 @@ import wrappers
 class Loader:
     """deals with loading levels and importing objects"""
     def goto_section(self, section_name):
+
+
         tags, section = base_engine.loaded_sections[section_name]
         engine.section_tags = tags
 
@@ -96,29 +98,35 @@ def section_load(path):
 def resource_pack_load(path, dictionary):
 
         module_name = os.path.basename(path)
+        level_name = os.path.basename(path[:-len(module_name) - 1])
+
+        try:
+            os.mkdir(engine.path + "/Temp/" + level_name)
+        except: pass
 
         for spr in glob.glob(path + "/Sprites/*.png"):
-            img = pyglet.image.load(spr)
-            dictionary["sprite"][(module_name, os.path.basename(spr).split(".")[0])] = img
+            img = pyglet.image.load(spr).get_texture().get_transform(flip_y=True)
+            img.anchor_x = img.width / 2
+            img.anchor_y = img.height / 2
+            dictionary["sprite"][(module_name, os.path.splitext(os.path.basename(spr))[0])] = img
 
         for sound in glob.glob(path + "/Sounds/*.wav"):
             snd = pyglet.media.load(sound, streaming=False)
-            dictionary["sound"][(module_name, os.path.basename(sound).split(".")[0])] = snd
+            dictionary["sound"][(module_name, os.path.splitext(os.path.basename(sound))[0])] = snd
 
         for music in glob.glob(path + "/Music/*.*"):
-            mus = wrappers.Music(pyglet.media.load(music, streaming=True))
-            dictionary["music"][(module_name, os.path.basename(music).split(".")[0])] = mus
+            mus = wrappers.Music(load_sound(music, level_name, module_name, True))
+            dictionary["music"][(module_name, os.path.splitext(os.path.basename(music))[0])] = mus
 
         for resource in glob.glob(path + "/Resources/*.*"):
-            dictionary["resource"][(module_name, os.path.basename(resource).split(".")[0])] = os.path.normcase(resource)
+            dictionary["resource"][(module_name, os.path.splitext(os.path.basename(resource))[0])] = os.path.normcase(resource)
 
         for obj in glob.glob(path + "/Objects/*.py"):
-            object_name = os.path.basename(obj).split(".")[0]
+            object_name = os.path.splitext(os.path.basename(obj))[0]
             file_dict = {}
             execfile(obj, file_dict)
             try:
-                dictionary["class"][(module_name, object_name)] = file_dict[object_name]
-                dictionary["instance"][(module_name, object_name)] = set()
+                engine._register_class_dict(module_name, object_name, file_dict[object_name], dictionary)
             except KeyError: pass
 
 
@@ -131,44 +139,57 @@ def folder_load(path, dictionary):
     for path in paths:
         resource_pack_load(path, dictionary)
 
+#Deal with AVBin not loading sometimes by dumping music into wav files
+def load_sound(fname, level_name, module_name, streaming):
+    try: #Try loading the mp3 normally
+        sound = pyglet.media.load(fname, streaming=streaming)
+    except:
+        temp_path = engine.path + "/Temp/" + level_name + "/" + module_name
+
+        try: #If that fails try loading a temporary wav file that may have been created
+            temp_fname = os.path.splitext(os.path.basename(fname))[0]
+            sound = pyglet.media.load(temp_path + "/" + temp_fname + ".wav", streaming=False)
+        except: #If that fails - create a temporary wav file
+            try:
+                os.mkdir(temp_path)
+            except: pass
+            sound = pyglet.media.load(dumpWAV(fname, temp_path), streaming=False)
+
+    return sound
+
+#Taken from http://pymedia.org/tut/src/dump_wav.py.html
+def dumpWAV(name, temp_dir):
+    from pymedia.audio import acodec
+    from pymedia import muxer
+    import wave, string, os
+
+    path, fname_ext = os.path.split(name)
+    fname, ext = os.path.splitext(fname_ext)
+    output_path = temp_dir + "/" + fname + ".wav"
+    #Open demuxer first
+
+    dm = muxer.Demuxer(ext[1:].lower())
+    dec = None
+    f = open(name,'rb')
+    snd = None
+    s = " "
+    while len(s):
+        s = f.read(20000)
+        if len(s):
+            frames = dm.parse(s)
+            for fr in frames:
+                if dec is None:
+                    #Open decoder
+
+                    dec = acodec.Decoder(dm.streams[0])
+                r = dec.decode(fr[1])
+                if r and r.data:
+                    if snd is None:
+                        snd = wave.open(output_path, "wb")
+                        snd.setparams((r.channels, 2, r.sample_rate, 0, "NONE",""))
+
+                    snd.writeframes(r.data)
+    return output_path
+
 loader.global_load()
 loader.level_load("My First Level")
-
-#########################################################################
-
-
-# class TestObj:
-#     x = 0
-#     y = 0
-#
-#     spr = engine.get_sprite("Res pack test", "Vulpix")
-#
-#     settings = ["spr"]
-#
-#     def on_create(self):
-#         self.sprite = self.spr
-#
-#     def on_tick(self):
-#         if key.MOTION_LEFT in engine.keys_down: self.x -= 2
-#         if key.MOTION_RIGHT in engine.keys_down: self.x += 2
-#         if key.MOTION_UP in engine.keys_down: self.y += 2
-#         if key.MOTION_DOWN in engine.keys_down: self.y -= 2
-#
-#         if key.G in engine.keys_pressed: print base_engine.objects_global
-#         if key.P in engine.keys_pressed: engine.get_sound('Res pack test', 'bing1').play()
-#         if key.M in engine.keys_pressed: engine.get_music('Res pack test', 'File Select').play()
-#         if key.Z in engine.keys_pressed: engine.editor_mode = True
-#         if key.N in engine.keys_pressed: engine.instance_create("Res pack test2", "test", 0, 0)
-#         self.sprite.x, self.sprite.y = self.x, self.y
-#
-#     def on_editor_tick(self):
-#         if key.Z in engine.keys_pressed: engine.editor_mode = False
-#
-#     def on_draw(self):
-#         self.sprite.draw()
-#
-#     def on_editor_draw(self):
-#         self.on_draw()
-#
-# engine.register_class_global("Testmod", "Test", TestObj)
-#engine.instance_create("Res pack test", "test", 0, 0, sprite="Vulpix")

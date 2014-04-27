@@ -3,6 +3,24 @@ import base_engine
 
 __author__ = 'Docopoper'
 
+class Layer(object):
+    name = ""
+    x = 0
+    y = 0
+    hspeed = 0
+    vspeed = 0
+    instances = set()
+    _disabled = False
+
+    @property
+    def disabled(self):
+        return self._disabled
+
+    @disabled.setter
+    def disabled(self, value):
+        self._disabled = value
+        for inst in self.instances:
+            inst.disabled = value
 
 class Sprite(object):
 

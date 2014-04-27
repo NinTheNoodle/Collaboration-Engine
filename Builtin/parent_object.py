@@ -6,6 +6,7 @@ class GameObject(object):
     y = 0
     module_name = ""
     class_name = ""
+    _layer = None
     _hp = None
     _disabled = False # Whether the object will be permanently inactive due to being disabled. Usually by the layer being disabled
     _active = False # Whether the object is active and is receiving events as opposed to being too far off screen
@@ -26,6 +27,18 @@ class GameObject(object):
     x_start = 0
     y_start = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
+
+    @property
+    def layer(self):
+        return self._layer
+
+    @layer.setter
+    def layer(self, value):
+        if self._layer != value:
+            if self._layer is not None:
+                self._layer.instances.remove(self)
+            self._layer = value
+            self._layer.instances.add(self)
 
     @property
     def disabled(self):

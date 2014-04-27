@@ -28,8 +28,13 @@ class Engine(object):
     mouse_y = 0
 
     section_tags = set()
+    layers = {}
     visibility_regions = []
     activity_regions = []
+
+    event_types = []
+    current_layer = None
+    current_instance = None # Which instance is having its event called at the moment
 
     current_music = None
 
@@ -40,12 +45,13 @@ class Engine(object):
         global desired_editor_mode
         desired_editor_mode = value
 
-    def instance_create(self, module_name, class_name, x=0, y=0, **kwargs):
+    def instance_create(self, module_name, class_name, layer_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
         inst.x_start = inst.x = x
         inst.x_start = inst.y = y
         inst.module_name = module_name
         inst.class_name = class_name
+        inst.layer = engine.layers[layer_name]
 
         engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
         engine.get_invisible_instances(inst.module_name, inst.class_name).add(inst)
@@ -55,7 +61,7 @@ class Engine(object):
             setattr(inst, key, value)
 
         engine.get_all_instances(module_name, class_name).add(inst)
-        event_handler.push_handlers(inst)
+        event_handler.add_handlers(inst)
         self.instance_update_handler_draw(inst)
         self.instance_update_handler_tick(inst)
         inst.on_create()
@@ -64,6 +70,7 @@ class Engine(object):
 
     def instance_destroy(self, instance):
         instance.on_destroy()
+        instance.layer.instances.remove(instance)
         event_handler.remove_handlers(instance)
         try:
             engine.get_all_instances(instance.module_name, instance.class_name).remove(instance)
@@ -86,6 +93,12 @@ class Engine(object):
         try:
             engine.get_disabled_instances(instance.module_name, instance.class_name).remove(instance)
         except KeyError: pass
+
+    def layer_x(self, layer):
+        return layers[layer].x
+
+    def layer_y(self, layer):
+        return layers[layer].y
 
     def activity_region(self, x1, y1, x2, y2):
         self.activity_regions.append((x1, y1, x2, y2))
@@ -152,15 +165,15 @@ class Engine(object):
 
     def instance_update_handler_draw(self, inst):
         if not inst.disabled and inst.visible:
-            event_handler.push_handlers(inst.on_draw)
+            event_handler.add_handlers(inst, "on_draw")
         else:
-            event_handler.remove_handlers(inst.on_draw)
+            event_handler.remove_handlers(inst, "on_draw")
 
     def instance_update_handler_tick(self, inst):
         if not inst.disabled and inst.active:
-            event_handler.push_handlers(inst.on_tick)
+            event_handler.add_handlers(inst, "on_tick")
         else:
-            event_handler.remove_handlers(inst.on_tick)
+            event_handler.remove_handlers(inst, "on_tick")
     #endregion
 
     #find the currently scoped class of the given name
@@ -350,13 +363,17 @@ dictionary_template = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "res
 objects_global = dictionary_template.copy()
 objects_local = dictionary_template.copy()
 
+layers = {}
+
 loaded_sections = {}
 
 window_invalidated = True
 window_hidden = False
 
 #Dispatches events to all objects in the system
-class EventHandler(pyglet.event.EventDispatcher):
+class EventHandler:
+
+    events = {}
     #Update all objects
     def tick(self, dt):
         global window_hidden
@@ -411,17 +428,48 @@ class EventHandler(pyglet.event.EventDispatcher):
 
         glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0)
 
+    #Loop through the set of all registered events of that type and call them
+    def dispatch_event(self, event):
+        for func in self.events[event].copy():
+            func()
 
-EventHandler.register_event_type("on_begin_tick")
-EventHandler.register_event_type("on_editor_begin_tick")
-EventHandler.register_event_type("on_tick")
-EventHandler.register_event_type("on_editor_tick")
-EventHandler.register_event_type("on_end_tick")
-EventHandler.register_event_type("on_editor_end_tick")
-EventHandler.register_event_type("on_draw")
-EventHandler.register_event_type("on_editor_draw")
+    #Add a new event type
+    def register_event_type(self, event):
+        engine.event_types.append(event)
+        self.events[event] = set()
+
+    #Add each instance's related method into the given event set
+    def add_handlers(self, instance, *handlers):
+        if len(handlers) == 0:
+            handlers = engine.event_types
+
+        for handler in handlers:
+            try:
+                self.events[handler].add(getattr(instance, handler))
+            except AttributeError: pass
+
+    #Remove each instance's related method from the given event set
+    def remove_handlers(self, instance, *handlers):
+        if len(handlers) == 0:
+            handlers = engine.event_types
+
+        for handler in handlers:
+            try:
+                self.events[handler].remove(getattr(instance, handler))
+            except AttributeError: pass
+            except KeyError: pass
+
 
 event_handler = EventHandler()
+
+event_handler.register_event_type("on_begin_tick")
+event_handler.register_event_type("on_editor_begin_tick")
+event_handler.register_event_type("on_tick")
+event_handler.register_event_type("on_editor_tick")
+event_handler.register_event_type("on_end_tick")
+event_handler.register_event_type("on_editor_end_tick")
+event_handler.register_event_type("on_draw")
+event_handler.register_event_type("on_editor_draw")
 
 pyglet.clock.schedule_interval(event_handler.tick, 1.0 / engine.working_fps)
 pyglet.clock.set_fps_limit(engine.working_fps)

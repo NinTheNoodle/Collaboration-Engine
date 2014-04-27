@@ -12,14 +12,25 @@ class Loader:
     def goto_section(self, section_name):
 
 
-        tags, section = base_engine.loaded_sections[section_name]
+        tags, section, layers = base_engine.loaded_sections[section_name]
         engine.section_tags = tags
 
-        for module_name, class_name, settings in section:
-            engine.instance_create(module_name, class_name, **settings)
+        for layer_name, settings in layers:
+            if layer_name not in engine.layers:
+                engine.layers[layer_name] = layer = wrappers.Layer()
+
+                for key, value in settings.iteritems():
+                    setattr(layer, key, value)
+
+        for module_name, class_name, layer_name, settings in section:
+            engine.instance_create(module_name, class_name, layer_name, **settings)
 
 
     def level_load(self, name, section_name=None):
+        if name.lower() == "global":
+            raise NameError()
+
+        engine.layers = {}
         base_engine.objects_local = base_engine.dictionary_template.copy()
         folder_load(engine.path + "/Levels/" + name, base_engine.objects_local)
         for section in glob.glob(engine.path + "/Levels/" + name + "/*.lvl"):
@@ -44,10 +55,11 @@ def section_load(path):
 
     section_list = []
     section_tags = {}
-    base_engine.loaded_sections[section_name] = (section_tags, section_list)
+    section_layers = []
+    base_engine.loaded_sections[section_name] = (section_tags, section_list, section_layers)
 
     new_object = None
-    new_object_class = None
+    new_object_attributes = None
 
     with open(path) as fl:
         for line in fl:
@@ -61,13 +73,12 @@ def section_load(path):
 
             if line_type == " ":
                 #Attempt to add a new setting change to the object - ignoring invalid lines
-                if new_object is None: continue
+                if new_object is None or new_object_attributes is None: continue
                 try:
                     key, value = line.split(":", 1)
                 except ValueError: continue
-                #if key in ("x", "y"): continue;
 
-                new_object[2][key] = eval(value, {})
+                new_object_attributes[key] = eval(value, {})
 
             elif line_type == "*":
                 #Apply section tags that aren't blank
@@ -79,17 +90,24 @@ def section_load(path):
                     else:
                         section_tags[data[0]] = True
             elif line_type == ">":
-                #Attempt to add a new object - ignoring invalid lines
+                #Attempt to add a new class - ignoring invalid lines
                 new_object = None
+                new_object_attributes = None
                 try:
-                    module, object_name = line.split("|", 1)
+                    module, object_name, layer_name = line.split("|", 2)
                 except ValueError: continue
                 try:
-                    new_object_class = engine.get_class(module, object_name)
+                    engine.get_class(module, object_name)
                 except KeyError: continue
 
-                new_object = (module, object_name, {})
+                new_object_attributes = {}
+                new_object = (module, object_name, layer_name, new_object_attributes)
                 section_list.append(new_object)
+            elif line_type == "@":
+                #Attempt to add a new layer - ignoring invalid lines
+                new_object_attributes = {}
+                new_object = (line, new_object_attributes)
+                section_layers.append(new_object)
             elif line_type == "#":
                 continue #Ignore comments
 
@@ -153,12 +171,12 @@ def load_sound(fname, level_name, module_name, streaming):
             try:
                 os.mkdir(temp_path)
             except: pass
-            sound = pyglet.media.load(dumpWAV(fname, temp_path), streaming=False)
+            sound = pyglet.media.load(dump_wav(fname, temp_path), streaming=False)
 
     return sound
 
 #Taken from http://pymedia.org/tut/src/dump_wav.py.html
-def dumpWAV(name, temp_dir):
+def dump_wav(name, temp_dir):
     from pymedia.audio import acodec
     from pymedia import muxer
     import wave, string, os

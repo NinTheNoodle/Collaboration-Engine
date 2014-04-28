@@ -210,4 +210,5 @@ def dump_wav(name, temp_dir):
     return output_path
 
 loader.global_load()
-loader.level_load("My First Level")
+#loader.level_load("My First Level")
+loader.level_load("Demo Level")

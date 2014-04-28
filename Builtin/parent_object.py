@@ -6,6 +6,7 @@ class GameObject(object):
     y = 0
     module_name = ""
     class_name = ""
+    _destroyed = False
     _layer = None
     _hp = None
     _disabled = False # Whether the object will be permanently inactive due to being disabled. Usually by the layer being disabled
@@ -39,6 +40,8 @@ class GameObject(object):
                 self._layer.instances.remove(self)
             self._layer = value
             self._layer.instances.add(self)
+            if engine.current_instance == self:
+                engine.current_layer = value
 
     @property
     def disabled(self):

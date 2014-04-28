@@ -14,6 +14,8 @@ from Builtin.camera import camera
 
 from Builtin.base_engine import engine
 
+from Builtin.collision import collision
+
 from Builtin.window import window
 
 from Builtin.parent_object import GameObject

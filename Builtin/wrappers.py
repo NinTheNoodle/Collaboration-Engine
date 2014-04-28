@@ -5,12 +5,38 @@ __author__ = 'Docopoper'
 
 class Layer(object):
     name = ""
-    x = 0
-    y = 0
+    _x = 0
+    _y = 0
+    _x_current = 0
+    _y_current = 0
     hspeed = 0
     vspeed = 0
     instances = set()
     _disabled = False
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        change = value - self._x
+        if change != 0:
+            for inst in self.instances:
+                inst.x += change
+            self._x = value
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        change = value - self._y
+        if change != 0:
+            for inst in self.instances:
+                inst.y += change
+            self._y = value
 
     @property
     def disabled(self):
@@ -21,6 +47,15 @@ class Layer(object):
         self._disabled = value
         for inst in self.instances:
             inst.disabled = value
+
+    def move(self, dx, dy):
+        if (dx, dy) != (0, 0):
+            for inst in self.instances:
+                inst.x += dx
+                inst.y += dy
+
+            self._x += dx
+            self._y += dy
 
 class Sprite(object):
 

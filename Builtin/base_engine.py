@@ -69,6 +69,9 @@ class Engine(object):
         return inst
 
     def instance_destroy(self, instance):
+        if instance._destroyed: return
+        instance._destroyed = True
+
         instance.on_destroy()
         instance.layer.instances.remove(instance)
         event_handler.remove_handlers(instance)
@@ -388,8 +391,9 @@ class EventHandler:
         engine.time += dt
 
         engine._instances_update_states()
-
         camera.on_tick()
+
+        globals.collision.layers_move()
 
         if engine.editor_mode:
             camera.view_width = globals.window.width
@@ -430,7 +434,9 @@ class EventHandler:
 
     #Loop through the set of all registered events of that type and call them
     def dispatch_event(self, event):
-        for func in self.events[event].copy():
+        for inst, func in self.events[event].copy():
+            engine.current_instance = inst
+            engine.current_layer = inst.layer
             func()
 
     #Add a new event type
@@ -445,7 +451,7 @@ class EventHandler:
 
         for handler in handlers:
             try:
-                self.events[handler].add(getattr(instance, handler))
+                self.events[handler].add((instance, getattr(instance, handler)))
             except AttributeError: pass
 
     #Remove each instance's related method from the given event set
@@ -455,7 +461,7 @@ class EventHandler:
 
         for handler in handlers:
             try:
-                self.events[handler].remove(getattr(instance, handler))
+                self.events[handler].remove((instance, getattr(instance, handler)))
             except AttributeError: pass
             except KeyError: pass
 

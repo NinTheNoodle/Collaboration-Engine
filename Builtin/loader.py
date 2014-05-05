@@ -22,6 +22,8 @@ class Loader:
                 for key, value in settings.iteritems():
                     setattr(layer, key, value)
 
+                layer.on_create()
+
         for module_name, class_name, layer_name, settings in section:
             engine.instance_create(module_name, class_name, layer_name, **settings)
 

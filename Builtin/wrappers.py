@@ -11,8 +11,12 @@ class Layer(object):
     _y_current = 0
     hspeed = 0
     vspeed = 0
-    instances = set()
     _disabled = False
+
+    def on_create(self):
+        self.instances = set()
+        self.collision_dict = {}
+
 
     @property
     def x(self):

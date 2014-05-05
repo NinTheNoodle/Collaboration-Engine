@@ -2,8 +2,8 @@ __author__ = 'Docopoper'
 from globals import *
 
 class GameObject(object):
-    x = 0
-    y = 0
+    _x = 0
+    _y = 0
     module_name = ""
     class_name = ""
     _destroyed = False
@@ -28,6 +28,22 @@ class GameObject(object):
     x_start = 0
     y_start = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        self._x = value
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        self._y = value
 
     @property
     def layer(self):

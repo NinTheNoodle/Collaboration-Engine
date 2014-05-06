@@ -12,6 +12,7 @@ class Layer(object):
     hspeed = 0
     vspeed = 0
     _disabled = False
+    cell_size = 32
 
     def on_create(self):
         self.instances = set()

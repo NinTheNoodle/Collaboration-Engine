@@ -1,39 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/Builtin/wrappers.py" line="105" />
+    <bookmark url="file://$PROJECT_DIR$/Builtin/wrappers.py" line="106" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" name="Default" comment="Added layer movement based on hspeed and vspeed.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Demo/Sprites/Enemy.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Res pack test/Music/File Select.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Music/File Select.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Music/Global Music.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Music/Icy Peak.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Music/Icy Peak2.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Music/Icy Peak3.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Music/Level Music.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Demo/Music/Level Music.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Sprites/Player.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Demo/Sprites/Player.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Sprites/Tile.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Res pack test/Sprites/Vulpix.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Sprites/Vulpix2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Sounds/bing1.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Res pack test/Sounds/bing1.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Sounds/bing1.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/New Text Document.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Section 1.lvl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Section 2.lvl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Demo/Objects/enemy.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Objects/player.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Res pack test/Objects/test.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/My First Level/Res pack test/Objects/test2.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Global/Demo/Objects/tile.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/base_engine.py" afterPath="$PROJECT_DIR$/Builtin/base_engine.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/collision.py" afterPath="$PROJECT_DIR$/Builtin/collision.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/loader.py" afterPath="$PROJECT_DIR$/Builtin/loader.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/parent_object.py" afterPath="$PROJECT_DIR$/Builtin/parent_object.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/wrappers.py" afterPath="$PROJECT_DIR$/Builtin/wrappers.py" />
@@ -41,7 +14,7 @@
     <ignored path="Collaboration Engine.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395353555289" ignored="false" />
-    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399331479867" ignored="false" />
+    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399331727125" ignored="false" />
     <file path="/window.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398706225349" ignored="false" />
     <file path="/globals.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398626805115" ignored="false" />
     <file path="/engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394821755157" ignored="false" />
@@ -59,7 +32,7 @@
     <file path="$PROJECT_DIR$/../Utter Confusion/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395353478285" ignored="false" />
     <file path="/test.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398681641994" ignored="false" />
     <file path="/resource_wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395856481550" ignored="false" />
-    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399316192104" ignored="false" />
+    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399332236240" ignored="false" />
     <file path="/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047405376" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047512704" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/confetti.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047595254" ignored="false" />
@@ -81,13 +54,13 @@
     <file path="/message_box.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079058480" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/Menu/menu_button.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079494977" ignored="false" />
     <file path="/menu_button.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397079492250" ignored="false" />
-    <file path="/parent_object.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399316958471" ignored="false" />
+    <file path="/parent_object.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399335336139" ignored="false" />
     <file path="/event.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397410027267" ignored="false" />
     <file path="/fragment.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397738673570" ignored="false" />
     <file path="/a.dummy" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398635843675" ignored="false" />
-    <file path="/collision.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399330752864" ignored="false" />
+    <file path="/collision.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399339252860" ignored="false" />
     <file path="/tile.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398713531769" ignored="false" />
-    <file path="/player.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398722640686" ignored="false" />
+    <file path="/player.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399336569445" ignored="false" />
     <file path="/enemy.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398722806290" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -111,16 +84,27 @@
       <file leaf-file-name="parent_object.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/parent_object.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="23" selection-start="2100" selection-end="2100" vertical-scroll-proportion="0.0">
+            <state line="62" column="33" selection-start="2666" selection-end="2666" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="player.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="collision.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Builtin/collision.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="45" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0151802655">
+              <folding>
+                <element signature="e#25#46#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="player.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="23" selection-start="280" selection-end="280" vertical-scroll-proportion="0.43776825">
+            <state line="59" column="63" selection-start="2009" selection-end="2009" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -138,7 +122,7 @@
       <file leaf-file-name="Section 1.lvl" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="8" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0">
+            <state line="8" column="0" selection-start="79" selection-end="79" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -156,22 +140,11 @@
       <file leaf-file-name="base_engine.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="950" selection-end="950" vertical-scroll-proportion="0.0">
+            <state line="53" column="36" selection-start="1288" selection-end="1288" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#3468#3513#0" expanded="false" />
                 <element signature="e#11302#11351#0" expanded="false" />
                 <element signature="e#12420#12469#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="collision.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Builtin/collision.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#25#46#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -189,11 +162,8 @@
       <file leaf-file-name="wrappers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="27" selection-start="285" selection-end="299" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1399316212652" expanded="true" signature="88:1243" placeholder="..." />
-                <marker date="1399316212652" expanded="true" signature="240:304" placeholder="..." />
-              </folding>
+            <state line="14" column="18" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -224,13 +194,13 @@
         <option value="$PROJECT_DIR$/Global/Res pack test/Objects/test.py" />
         <option value="$PROJECT_DIR$/Builtin/window.py" />
         <option value="$PROJECT_DIR$/Global/Demo/Objects/tile.py" />
-        <option value="$PROJECT_DIR$/Builtin/base_engine.py" />
-        <option value="$PROJECT_DIR$/Global/Demo/Objects/player.py" />
         <option value="$PROJECT_DIR$/Levels/Demo Level/Demo/Objects/enemy.py" />
         <option value="$PROJECT_DIR$/Builtin/loader.py" />
-        <option value="$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl" />
         <option value="$PROJECT_DIR$/Builtin/wrappers.py" />
+        <option value="$PROJECT_DIR$/Builtin/base_engine.py" />
+        <option value="$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl" />
         <option value="$PROJECT_DIR$/Builtin/parent_object.py" />
+        <option value="$PROJECT_DIR$/Global/Demo/Objects/player.py" />
         <option value="$PROJECT_DIR$/Builtin/collision.py" />
       </list>
     </option>
@@ -414,6 +384,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Global" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Demo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Music" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -682,28 +674,32 @@
       <created>1398721502393</created>
       <updated>1398721502393</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added layer movement based on hspeed and vspeed.">
+      <created>1399331780272</created>
+      <updated>1399331780272</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="886" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20785071" sideWeight="0.6735254" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25096524" sideWeight="0.67489713" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39917696" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25096524" sideWeight="0.76066023" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889959" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32599726" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3251029" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23933975" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3251029" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -785,15 +781,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="15" />
+      <option name="time" value="19" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Levels/My First Level/Res pack test/Sprites/Vulpix2.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Global/Res pack test/Sprites/Vulpix.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -820,13 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/tile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="83" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/window.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="26" selection-start="911" selection-end="911" vertical-scroll-proportion="0.0">
@@ -841,9 +825,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4953" column="8" selection-start="168685" selection-end="168685" vertical-scroll-proportion="0.33261803">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="79" selection-end="79" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="18" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="950" selection-end="950" vertical-scroll-proportion="0.0">
+        <state line="53" column="36" selection-start="1288" selection-end="1288" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#3468#3513#0" expanded="false" />
             <element signature="e#11302#11351#0" expanded="false" />
@@ -852,35 +857,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
+    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/tile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="27" selection-start="285" selection-end="299" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1399316212652" expanded="true" signature="88:1243" placeholder="..." />
-            <marker date="1399316212652" expanded="true" signature="240:304" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm20/system/python_stubs/-762174762/__builtin__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4953" column="8" selection-start="168685" selection-end="168685" vertical-scroll-proportion="0.33261803">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/collision.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#25#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="8" selection-start="71" selection-end="71" vertical-scroll-proportion="0.0">
+        <state line="10" column="83" selection-start="297" selection-end="297" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -892,17 +871,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/parent_object.py">
+    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="23" selection-start="2100" selection-end="2100" vertical-scroll-proportion="0.0">
+        <state line="59" column="63" selection-start="2009" selection-end="2009" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
+    <entry file="file://$PROJECT_DIR$/Builtin/parent_object.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="23" selection-start="280" selection-end="280" vertical-scroll-proportion="0.43776825">
+        <state line="62" column="33" selection-start="2666" selection-end="2666" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Builtin/collision.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="45" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.0151802655">
+          <folding>
+            <element signature="e#25#46#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

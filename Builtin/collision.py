@@ -5,44 +5,80 @@ import base_engine
 from math import ceil
 
 class Collision(object):
+    updates = set()
+
     def layers_move(self):
         for layer in engine.layers.itervalues():
             layer.move(layer.hspeed, layer.vspeed)
 
-    def instance_update_collision_bbox(self, inst, bbox_from, bbox_to):
-        if bbox_from != bbox_to:
-            layer = inst.layer
+    def update_collision_dicts(self):
+        for inst in self.updates:
+            layer_from = inst._layer_col_old
+            layer_to = inst._layer
+            bbox_from = inst._bbox_collide_col_old
+            bbox_to = inst._bbox_collide
+            x_from = inst._x_col_old
+            x_to = inst._x - layer_to._x
+            y_from = inst._y_col_old
+            y_to = inst._y - layer_to._y
 
-            before_cells = self.box_to_cells(inst.x, inst.y, bbox_from, layer.cell_size)
-            after_cells = self.box_to_cells(inst.x, inst.y, bbox_to, layer.cell_size)
+            if not inst._disabled_col_old and layer_from is not None:
+                for pos in self.box_to_cells(x_from, y_from, bbox_from, layer_from.cell_size):
+                    try:
+                        layer_from.collision_dict[pos].remove(inst)
+                    except KeyError: pass
 
-            for pos in before_cells:
+            if not inst._disabled:
+                for pos in self.box_to_cells(x_to, y_to, bbox_to, layer_to.cell_size):
+                    try:
+                        layer_to.collision_dict[pos].add(inst)
+                    except KeyError: layer_to.collision_dict[pos] = {inst}
+
+            inst._disabled_col_old = inst._disabled
+            inst._layer_col_old = layer_to
+            inst._bbox_collide_col_old = bbox_to
+            inst._x_col_old = x_to
+            inst._y_col_old = y_to
+
+        self.updates.clear()
+
+
+
+    def collision_position(self, inst, x, y):
+        rtn = self.collision_rectangle(inst._bbox_collide[0] + x, inst._bbox_collide[1] + y,
+                                       inst._bbox_collide[2] + x, inst._bbox_collide[3] + y)
+        try:
+            rtn.remove(inst)
+        except KeyError: pass
+        return rtn
+
+    def collision_rectangle(self, x1, y1, x2, y2):
+        self.update_collision_dicts()
+        rect = (x1, y1, x2, y2)
+        found = set()
+        rtn = set()
+        for layer in engine.layers.itervalues():
+            for cell in self.box_to_cells(-layer._x, -layer._y, rect, layer.cell_size):
                 try:
-                    layer.collision_dict[pos].remove(inst)
+                    found |= layer.collision_dict[cell]
                 except KeyError: pass
 
-            for pos in after_cells:
-                layer.collision_dict[pos].add(inst)
+        for inst in found:
+            if (x2 > inst.bbox_collide[0] + inst.x
+            and y2 > inst.bbox_collide[1] + inst.y
+            and x1 < inst.bbox_collide[2] + inst.x
+            and y1 < inst.bbox_collide[3] + inst.y):
+                rtn.add(inst)
+        return rtn
 
-    def instance_update_collision_position(self, inst, x_from, y_from, x_to, y_to):
-        if (x_from, y_from) != (x_to, y_to):
-            layer = inst.layer
-            for pos in self.box_to_cells(x_from, y_from, inst.bbox_collision, layer.cell_size):
-                try:
-                    layer.collision_dict[pos].remove(inst)
-                except KeyError: pass
+    def instance_update_collision(self, inst):
+        if not inst._no_collide:
+            self.updates.add(inst)
 
-            for pos in self.box_to_cells(x_to, y_to, inst.bbox_collision, layer.cell_size):
-                layer.collision_dict[pos].add(inst)
-
-    def instance_update_collision_layer(self, inst, layer_from, layer_to):
-        for pos in self.box_to_cells(inst.x, inst.y, inst.bbox_collision, layer_from.cell_size):
-            try:
-                layer_from.collision_dict[pos].remove(inst)
-            except KeyError: pass
-
-        for pos in self.box_to_cells(inst.x, inst.y, inst.bbox_collision, layer_to.cell_size):
-            layer_to.collision_dict[pos].add(inst)
+    def instance_abort_collision(self, inst):
+        try:
+            self.updates.remove(inst)
+        except KeyError: pass
 
     # noinspection PyArgumentList
     def box_to_cells(self, x, y, bbox, cell_size):
@@ -57,5 +93,3 @@ class Collision(object):
 
 
 collision = Collision()
-
-print collision.box_to_cells(0, 0, (-32, -32, 32, 32), 32)

@@ -47,11 +47,11 @@ class Engine(object):
 
     def instance_create(self, module_name, class_name, layer_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
+        inst.layer = engine.layers[layer_name]
         inst.x_start = inst.x = x
         inst.y_start = inst.y = y
         inst.module_name = module_name
         inst.class_name = class_name
-        inst.layer = engine.layers[layer_name]
 
         engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
         engine.get_invisible_instances(inst.module_name, inst.class_name).add(inst)

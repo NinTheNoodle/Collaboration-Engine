@@ -16,7 +16,7 @@ class Layer(object):
 
     def on_create(self):
         self.instances = set()
-        self.collision_dict = {}
+        self.instance_dict = {}
 
 
     @property

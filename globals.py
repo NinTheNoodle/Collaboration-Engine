@@ -10,6 +10,8 @@ from math import *
 
 from pyglet.window import key, mouse
 
+from Builtin import instance_grid
+
 from Builtin.camera import camera
 
 from Builtin.base_engine import engine

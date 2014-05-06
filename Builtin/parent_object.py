@@ -34,11 +34,11 @@ class GameObject(object):
     _active = False # Whether the object is active and is receiving events as opposed to being too far off screen
     _visible = False # Whether the object is visible and receiving draw events as opposed to being off screen at all
 
-    _disabled_col_old = True # Used in updating the objects position on the collision grid
-    _x_col_old = 0
-    _y_col_old = 0
-    _layer_col_old = None
-    _bbox_collide_col_old = ()
+    _disabled_old = {} # Used in updating the object positions on instance grids (such as for collisions)
+    _x_old = {}
+    _y_old = {}
+    _layer_old = {}
+    _bbox_old = {}
 
     @property
     def no_collide(self):

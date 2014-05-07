@@ -5,7 +5,7 @@ import base_engine
 from math import ceil
 
 class Collision(object):
-    collision_grid = instance_grid.InstanceGrid("bbox_collide")
+    collision_grid = instance_grid.InstanceGrid("bbox_collide", "disabled", "no_collide")
 
     def layers_move(self):
         for layer in engine.layers.itervalues():
@@ -31,11 +31,10 @@ class Collision(object):
         return rtn
 
     def instance_update_collision(self, inst):
-        if not inst._no_collide:
-            self.collision_grid.instance_update(inst)
+        self.collision_grid.instance_update(inst)
 
     def instance_abort_collision(self, inst):
-        self.collision_grid.instance_remove(inst)
+        self.collision_grid.instance_abort_update(inst)
 
 
 collision = Collision()

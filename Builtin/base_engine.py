@@ -38,6 +38,9 @@ class Engine(object):
 
     current_music = None
 
+    visibility_grid = instance_grid.InstanceGrid("bbox_visible", "disabled", "always_visible")
+    activity_grid = instance_grid.InstanceGrid("bbox_active", "disabled", "always_active")
+
     @property
     def editor_mode(self): return editor_mode
     @editor_mode.setter
@@ -70,8 +73,8 @@ class Engine(object):
 
     def instance_destroy(self, instance):
         if instance._destroyed: return
-        instance._destroyed = True
 
+        instance._destroyed = True
         instance.on_destroy()
         instance.layer.instances.remove(instance)
         event_handler.remove_handlers(instance)
@@ -318,7 +321,53 @@ class Engine(object):
             tex_draw = pyglet.image.Texture.create_for_size(GL_TEXTURE_2D, globals.window.width, globals.window.height, internalformat=GL_RGB)
             window_invalidated = False
 
+    def instance_update_visibility(self, inst):
+        if not inst.always_visible:
+            self.visibility_grid.instance_update(inst)
+
+    def instance_update_activity(self, inst):
+        if not inst.always_active:
+            self.activity_grid.instance_update(inst)
+
     def _instances_update_states(self):
+        visible_changes = {}
+        active_changes = {}
+
+        for inst in self.get_active_instances():
+            if not inst.disabled and not inst.always_active:
+                active_changes[inst] = False
+
+        for inst in self.get_visible_instances():
+            if not inst.disabled and not inst.always_visible:
+                visible_changes[inst] = False
+
+        for x1, y1, x2, y2 in self.activity_regions:
+
+            for inst in self.activity_grid.instances_rectangle(x1, y1, x2, y2):
+                if (inst.bbox_active[0] + inst.x < x2
+                and inst.bbox_active[1] + inst.y < y2
+                and inst.bbox_active[2] + inst.x > x1
+                and inst.bbox_active[3] + inst.y > y1):
+                    active_changes[inst] = True
+
+        for x1, y1, x2, y2 in self.visibility_regions:
+            for inst in self.visibility_grid.instances_rectangle(x1, y1, x2, y2):
+                if (inst.bbox_visible[0] + inst.x < x2
+                and inst.bbox_visible[1] + inst.y < y2
+                and inst.bbox_visible[2] + inst.x > x1
+                and inst.bbox_visible[3] + inst.y > y1):
+                    visible_changes[inst] = True
+
+        for inst, value in active_changes.iteritems():
+            inst.active = value
+
+        for inst, value in visible_changes.iteritems():
+            inst.visible = value
+
+        self.activity_regions = []
+        self.visibility_regions = []
+
+    def _instances_update_states_old(self):
         #go through each instance and check to see if it should be active and visible
         for inst in self.get_all_instances():
             active = inst.always_active
@@ -390,7 +439,6 @@ class EventHandler:
         engine.frame += 1
         engine.time += dt
 
-        engine._instances_update_states()
         camera.on_tick()
 
         globals.collision.layers_move()
@@ -407,6 +455,7 @@ class EventHandler:
             self.dispatch_event("on_end_tick")
 
         engine._validate_window()
+        engine._instances_update_states()
         self.draw()
 
         #Clear the inputs from last frame
@@ -435,9 +484,10 @@ class EventHandler:
     #Loop through the set of all registered events of that type and call them
     def dispatch_event(self, event):
         for inst, func in self.events[event].copy():
-            engine.current_instance = inst
-            engine.current_layer = inst.layer
-            func()
+            if not inst.destroyed:
+                engine.current_instance = inst
+                engine.current_layer = inst.layer
+                func()
 
     #Add a new event type
     def register_event_type(self, event):

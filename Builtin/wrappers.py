@@ -28,7 +28,7 @@ class Layer(object):
         change = value - self._x
         if change != 0:
             for inst in self.instances:
-                inst.x += change
+                inst._x += change
             self._x = value
 
     @property
@@ -40,7 +40,7 @@ class Layer(object):
         change = value - self._y
         if change != 0:
             for inst in self.instances:
-                inst.y += change
+                inst._y += change
             self._y = value
 
     @property
@@ -56,8 +56,8 @@ class Layer(object):
     def move(self, dx, dy):
         if (dx, dy) != (0, 0):
             for inst in self.instances:
-                inst.x += dx
-                inst.y += dy
+                inst._x += dx
+                inst._y += dy
 
             self._x += dx
             self._y += dy

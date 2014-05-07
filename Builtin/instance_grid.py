@@ -5,27 +5,13 @@ import globals
 next_id = 0
 
 class InstanceGrid(object):
-    def __init__(self, bbox_name):
+    def __init__(self, bbox_name, *disabling_variables):
         global next_id
         self.updates = set()
         self.bbox = bbox_name
+        self.disabling_variables = disabling_variables + ("destroyed",)
         self.id = next_id
         next_id += 1
-
-    def instance_remove(self, inst):
-        # Retroactively remove an instance from the grid. Important if the instance has been destroyed.
-        layer_from = inst._layer_old[self.id]
-        bbox_from = inst._bbox_old[self.id]
-        x_from = inst._x_old[self.id]
-        y_from = inst._y_old[self.id]
-
-        if not inst._disabled_old[self.id]:
-            for pos in self.box_to_cells(x_from, y_from, bbox_from, layer_from.cell_size):
-                try:
-                    layer_from.instance_dict[self.id][pos].remove(inst)
-                except KeyError: pass
-
-        self.instance_abort_update(inst)
 
     def update_collision_dicts(self):
         for inst in self.updates:
@@ -36,7 +22,7 @@ class InstanceGrid(object):
                 y_from = inst._y_old[self.id]
 
                 if not inst._disabled_old[self.id]:
-                    for pos in self.box_to_cells(x_from, y_from, bbox_from, layer_from.cell_size):
+                    for pos in self._box_to_cells(x_from, y_from, bbox_from, layer_from.cell_size):
                         try:
                             layer_from.instance_dict[self.id][pos].remove(inst)
                         except KeyError: pass
@@ -47,8 +33,14 @@ class InstanceGrid(object):
             x_to = inst.x - layer_to.x
             y_to = inst.y - layer_to.y
 
-            if not inst._disabled:
-                for pos in self.box_to_cells(x_to, y_to, bbox_to, layer_to.cell_size):
+            disabled = False
+            for var in self.disabling_variables:
+                if getattr(inst, var):
+                    disabled = True
+                    break
+
+            if not disabled:
+                for pos in self._box_to_cells(x_to, y_to, bbox_to, layer_to.cell_size):
                     try:
                         layer_to.instance_dict[self.id][pos].add(inst)
                     except KeyError: # The position doesn't exist
@@ -71,14 +63,20 @@ class InstanceGrid(object):
         rect = (x1, y1, x2, y2)
         found = set()
         for layer in globals.engine.layers.itervalues():
-            for cell in self.box_to_cells(-layer._x, -layer._y, rect, layer.cell_size):
+            for cell in self._box_to_cells(-layer.x, -layer.y, rect, layer.cell_size):
                 try:
                     found |= layer.instance_dict[self.id][cell]
                 except KeyError: pass
         return found
 
     def instance_update(self, inst):
-        if not inst._no_collide:
+        disabled = False
+        for var in self.disabling_variables:
+            if getattr(inst, var):
+                disabled = True
+                break
+
+        if not disabled:
             self.updates.add(inst)
 
     def instance_abort_update(self, inst):
@@ -87,7 +85,7 @@ class InstanceGrid(object):
         except KeyError: pass
 
     # noinspection PyArgumentList
-    def box_to_cells(self, x, y, bbox, cell_size):
+    def _box_to_cells(self, x, y, bbox, cell_size):
         return [(xx, yy)
                 for yy in
                 xrange(int((y + bbox[1]) // cell_size),

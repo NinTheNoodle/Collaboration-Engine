@@ -8,24 +8,20 @@ class GameObject(object):
     temporary = False # Whether the object gets destroyed when deactivated / disabled
     section_persist = False # Whether the object gets destroyed when changing level section
     level_persist = False # Whether the object gets destroyed when changing level - only valid for global instances
-    always_active = False # Whether the object will deactivate when off screen or not
-    always_visible = False # Whether the object will become invisible when off screen or not
     hspeed = 0
     vspeed = 0
-    bbox_full = (-16, -16, 16, 16) # Bounding box to fully encompass the object
-    bbox_active = (-16, -16, 16, 16) # Bounding box to determine when this object activates and deactivates
-    bbox_visible = (-16, -16, 16, 16) # Bounding box to determine when this object is visible on screen
-    bbox_hurt = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision harmful to the player
-    bbox_help = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision helpful to the player
     x_start = 0
     y_start = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
 
     _x = 0
     _y = 0
-
-
+    _always_active = False # Whether the object will deactivate when off screen or not
+    _always_visible = False # Whether the object will become invisible when off screen or not
     _no_collide = False # If true the instance won't even be considered for collisions
+    _bbox_select = (-16, -16, 16, 16) # Bounding box for selection in the editor
+    _bbox_active = (-16, -16, 16, 16) # Bounding box to determine when this object activates and deactivates
+    _bbox_visible = (-16, -16, 16, 16) # Bounding box to determine when this object is visible on screen
     _bbox_collide = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision neutral to the player
     _destroyed = False
     _layer = None
@@ -41,17 +37,42 @@ class GameObject(object):
     _bbox_old = {}
 
     @property
+    def destroyed(self):
+        return self._destroyed
+
+    @property
     def no_collide(self):
         return self._no_collide
 
     @no_collide.setter
     def no_collide(self, value):
-        if value:
-            collision.instance_abort_collision(self)
-            self._no_collide = True
-        else:
+        if self._no_collide != value:
+            self._no_collide = value
             collision.instance_update_collision(self)
-            self._no_collide = False
+
+    @property
+    def always_active(self):
+        return self._always_active
+
+    @always_active.setter
+    def always_active(self, value):
+        if self._always_active != value:
+            if value:
+                self.active = True
+            self._always_active = value
+            engine.instance_update_activity(self)
+
+    @property
+    def always_visible(self):
+        return self._always_visible
+
+    @always_visible.setter
+    def always_visible(self, value):
+        if self._always_visible != value:
+            if value:
+                self.visible = True
+            self._always_visible = value
+            engine.instance_update_visibility(self)
 
     @property
     def x(self):
@@ -60,8 +81,10 @@ class GameObject(object):
     @x.setter
     def x(self, value):
         if self._x != value:
-            collision.instance_update_collision(self)
             self._x = value
+            collision.instance_update_collision(self)
+            engine.instance_update_activity(self)
+            engine.instance_update_visibility(self)
 
     @property
     def y(self):
@@ -70,8 +93,10 @@ class GameObject(object):
     @y.setter
     def y(self, value):
         if self._y != value:
-            collision.instance_update_collision(self)
             self._y = value
+            collision.instance_update_collision(self)
+            engine.instance_update_activity(self)
+            engine.instance_update_visibility(self)
 
     @property
     def bbox_collide(self):
@@ -80,8 +105,10 @@ class GameObject(object):
     @bbox_collide.setter
     def bbox_collide(self, value):
         if self._bbox_collide != value:
-            collision.instance_update_collision(self)
             self._bbox_collide = value
+            collision.instance_update_collision(self)
+            engine.instance_update_activity(self)
+            engine.instance_update_visibility(self)
 
     @property
     def layer(self):
@@ -90,13 +117,18 @@ class GameObject(object):
     @layer.setter
     def layer(self, value):
         if self._layer != value:
-            collision.instance_update_collision(self)
             if self._layer is not None:
                 self._layer.instances.remove(self)
+
             self._layer = value
             self._layer.instances.add(self)
+
             if engine.current_instance == self:
                 engine.current_layer = value
+
+            collision.instance_update_collision(self)
+            engine.instance_update_activity(self)
+            engine.instance_update_visibility(self)
 
     @property
     def disabled(self):
@@ -108,11 +140,15 @@ class GameObject(object):
             self.destroy()
         else:
             if value and not self._disabled:
-                collision.instance_update_collision(self)
                 engine.instance_disable(self)
-            elif not value and self._disabled:
                 collision.instance_update_collision(self)
+                engine.instance_update_activity(self)
+                engine.instance_update_visibility(self)
+            elif not value and self._disabled:
                 engine.instance_enable(self)
+                collision.instance_update_collision(self)
+                engine.instance_update_activity(self)
+                engine.instance_update_visibility(self)
 
     @property
     def active(self):
@@ -120,13 +156,14 @@ class GameObject(object):
 
     @active.setter
     def active(self, value):
-        if self.temporary and not value:
-            self.destroy()
-        else:
-            if value and not self._active:
-                engine.instance_activate(self)
-            elif not value and self._active:
-                engine.instance_deactivate(self)
+        if not self.always_active:
+            if self.temporary and not value:
+                self.destroy()
+            else:
+                if value and not self._active:
+                    engine.instance_activate(self)
+                elif not value and self._active:
+                    engine.instance_deactivate(self)
 
     @property
     def visible(self):
@@ -134,10 +171,11 @@ class GameObject(object):
 
     @visible.setter
     def visible(self, value):
-        if value and not self._visible:
-            engine.instance_show(self)
-        elif not value and self._visible:
-            engine.instance_hide(self)
+        if not self.always_visible:
+            if value and not self._visible:
+                engine.instance_show(self)
+            elif not value and self._visible:
+                engine.instance_hide(self)
 
     @property
     def hp(self):

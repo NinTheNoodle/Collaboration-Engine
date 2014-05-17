@@ -13,6 +13,8 @@ class InstanceGrid(object):
         self.id = next_id
         next_id += 1
 
+
+
     def update_collision_dicts(self):
         for inst in self.updates:
             try:

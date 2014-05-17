@@ -28,6 +28,7 @@ class Engine(object):
     mouse_y = 0
 
     section_tags = set()
+
     layers = {}
     visibility_regions = []
     activity_regions = []
@@ -56,14 +57,15 @@ class Engine(object):
         inst.module_name = module_name
         inst.class_name = class_name
 
-        engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
-        engine.get_invisible_instances(inst.module_name, inst.class_name).add(inst)
-        engine.get_inactive_instances(inst.module_name, inst.class_name).add(inst)
+        engine.get_enabled_instances(module_name, class_name).add(inst)
+        engine.get_invisible_instances(module_name, class_name).add(inst)
+        engine.get_inactive_instances(module_name, class_name).add(inst)
+        engine.get_all_instances(module_name, class_name).add(inst)
 
+        inst.on_init()
         for key, value in kwargs.iteritems():
             setattr(inst, key, value)
 
-        engine.get_all_instances(module_name, class_name).add(inst)
         event_handler.add_handlers(inst)
         self.instance_update_handler_draw(inst)
         self.instance_update_handler_tick(inst)
@@ -72,8 +74,11 @@ class Engine(object):
         return inst
 
     def instance_destroy(self, instance):
-        if instance._destroyed: return
+        if instance.destroyed: return
 
+        globals.collision.instance_update_collision(instance)
+        engine.instance_update_activity(instance)
+        engine.instance_update_visibility(instance)
         instance._destroyed = True
         instance.on_destroy()
         instance.layer.instances.remove(instance)
@@ -171,15 +176,21 @@ class Engine(object):
 
     def instance_update_handler_draw(self, inst):
         if not inst.disabled and inst.visible:
-            event_handler.add_handlers(inst, "on_draw")
+            event_handler.add_handlers(inst, "on_draw", "on_editor_draw")
         else:
-            event_handler.remove_handlers(inst, "on_draw")
+            event_handler.remove_handlers(inst, "on_draw", "on_editor_draw")
 
     def instance_update_handler_tick(self, inst):
         if not inst.disabled and inst.active:
-            event_handler.add_handlers(inst, "on_tick")
+            event_handler.add_handlers(inst,
+                                       "on_begin_tick", "on_editor_begin_tick",
+                                       "on_tick", "on_editor_tick",
+                                       "on_end_tick", "on_editor_end_tick")
         else:
-            event_handler.remove_handlers(inst, "on_tick")
+            event_handler.remove_handlers(inst,
+                                          "on_begin_tick", "on_editor_begin_tick",
+                                          "on_tick", "on_editor_tick",
+                                          "on_end_tick", "on_editor_end_tick")
     #endregion
 
     #find the currently scoped class of the given name
@@ -199,10 +210,12 @@ class Engine(object):
             return  set(objects_local["class"].values()) | set(objects_global["class"].values())
         return engine._get_object(module_name, "class", class_name)
 
-    def get_sprite(self, module_name="*", sprite_name=None):
+    def get_sprite(self, module_name="*", sprite_name=None, drawing_layer="default"):
         if module_name == "*":
             return  set(objects_local["sprite"].values()) | set(objects_global["sprite"].values())
-        return wrappers.Sprite(engine._get_object(module_name, "sprite", sprite_name))
+        if sprite_name is None:
+            raise ValueError("Sprite name not specified")
+        return wrappers.Sprite(engine._get_object(module_name, "sprite", sprite_name),  drawing_layer)
 
     def get_sound(self, module_name="*", sound_name=None):
         if module_name == "*":
@@ -312,15 +325,6 @@ class Engine(object):
 
     #endregion
 
-    #recreate the drawing texture if the window has been resized
-    def _validate_window(self):
-        global window_invalidated
-
-        if window_invalidated:
-            global tex_draw
-            tex_draw = pyglet.image.Texture.create_for_size(GL_TEXTURE_2D, globals.window.width, globals.window.height, internalformat=GL_RGB)
-            window_invalidated = False
-
     def instance_update_visibility(self, inst):
         if not inst.always_visible:
             self.visibility_grid.instance_update(inst)
@@ -367,46 +371,10 @@ class Engine(object):
         self.activity_regions = []
         self.visibility_regions = []
 
-    def _instances_update_states_old(self):
-        #go through each instance and check to see if it should be active and visible
-        for inst in self.get_all_instances():
-            active = inst.always_active
-            visible = inst.always_visible
-
-            if not active:
-                for x1, y1, x2, y2 in self.activity_regions:
-                    if (inst.bbox_active[0] + inst.x < x2
-                    and inst.bbox_active[1] + inst.y < y2
-                    and inst.bbox_active[2] + inst.x > x1
-                    and inst.bbox_active[3] + inst.y > y1):
-                        active = True
-                        break
-
-            if not visible:
-                for x1, y1, x2, y2 in self.visibility_regions:
-                    if (inst.bbox_visible[0] + inst.x < x2
-                    and inst.bbox_visible[1] + inst.y < y2
-                    and inst.bbox_visible[2] + inst.x > x1
-                    and inst.bbox_visible[3] + inst.y > y1):
-                        visible = True
-                        break
-
-            inst.active = active
-            inst.visible = visible
-
-        self.activity_regions = []
-        self.visibility_regions = []
-
-
 engine = Engine()
 
 editor_mode = False  # the actual state of being in editor mode or not - updated at the end of a tick
 desired_editor_mode = editor_mode  # what to set _editor_mode to at the end of the tick
-
-buffers = pyglet.image.get_buffer_manager()
-bfr_col = buffers.get_color_buffer()
-
-tex_draw = None
 
 #internal dictionaries of names to references
 dictionary_template = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {},
@@ -419,9 +387,6 @@ layers = {}
 
 loaded_sections = {}
 
-window_invalidated = True
-window_hidden = False
-
 #Dispatches events to all objects in the system
 class EventHandler:
 
@@ -429,8 +394,8 @@ class EventHandler:
     #Update all objects
     def tick(self, dt):
         global window_hidden
-        if window_hidden:
-            window_hidden = globals.window.hidden
+        if renderer.window_hidden:
+            renderer.window_hidden = globals.window.hidden
             return
 
         wrappers.music_tick(dt)
@@ -440,6 +405,8 @@ class EventHandler:
         engine.time += dt
 
         camera.on_tick()
+
+        if key.R in engine.keys_pressed: globals.loader.goto_level("Demo Level")
 
         globals.collision.layers_move()
 
@@ -454,9 +421,16 @@ class EventHandler:
             self.dispatch_event("on_tick")
             self.dispatch_event("on_end_tick")
 
-        engine._validate_window()
+        renderer._validate_window()
         engine._instances_update_states()
-        self.draw()
+
+        if engine.editor_mode:
+            self.dispatch_event("on_editor_draw")
+        else:
+            self.dispatch_event("on_draw")
+
+
+        renderer.draw()
 
         #Clear the inputs from last frame
         engine.keys_released.clear()
@@ -465,21 +439,6 @@ class EventHandler:
         engine.mouse_pressed.clear()
         global editor_mode
         editor_mode = desired_editor_mode
-
-    def draw(self):
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, bfr_col.gl_buffer)
-
-        glFramebufferTexture2DEXT(GL_DRAW_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
-                                  tex_draw.target, tex_draw.id, 0)
-
-        globals.camera.projection_world()
-
-        if engine.editor_mode:
-            self.dispatch_event("on_editor_draw")
-        else:
-            self.dispatch_event("on_draw")
-
-        glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, 0)
 
     #Loop through the set of all registered events of that type and call them
     def dispatch_event(self, event):
@@ -490,7 +449,7 @@ class EventHandler:
                 func()
 
     #Add a new event type
-    def register_event_type(self, event):
+    def register_event_type(self, event, sort=False):
         engine.event_types.append(event)
         self.events[event] = set()
 
@@ -514,6 +473,7 @@ class EventHandler:
                 self.events[handler].remove((instance, getattr(instance, handler)))
             except AttributeError: pass
             except KeyError: pass
+            except ValueError: pass
 
 
 event_handler = EventHandler()

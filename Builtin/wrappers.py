@@ -3,7 +3,10 @@ import base_engine
 
 __author__ = 'Docopoper'
 
+next_layer_id = 0
+
 class Layer(object):
+    layer_id = -1
     name = ""
     _x = 0
     _y = 0
@@ -15,9 +18,11 @@ class Layer(object):
     cell_size = 32
 
     def on_create(self):
+        global next_layer_id
+        self.layer_id = next_layer_id
+        next_layer_id += 1
         self.instances = set()
         self.instance_dict = {}
-
 
     @property
     def x(self):
@@ -62,33 +67,129 @@ class Layer(object):
             self._x += dx
             self._y += dy
 
-class Sprite(object):
+class Drawable(object):
+    def __init__(self, drawing_layer):
+        self.require_draw = False
+        self.update_group(drawing_layer)
 
-    def __init__(self, spr):
-        self.spr = pyglet.sprite.Sprite(spr)
-        self.width = self.spr.width
-        self.height = self.spr.height
-        self.bbox = (-self.width / 2, -self.height / 2, self.width / 2, self.height / 2)
+    @property
+    def visible(self): return False
+    @visible.setter
+    def visible(self, value): pass
+
+    @property
+    def disabled(self): return True
+    @disabled.setter
+    def disabled(self, value): pass
+
+    def destroy(self):
+        try:
+            self.group.drawables.remove(self)
+        except AttributeError: pass
+
+    def update_group(self, drawing_layer):
+        try:
+            self.group.drawables.remove(self)
+        except AttributeError: pass
+        self.group = renderer.drawing_layers[drawing_layer]
+        self.group.drawables.add(self)
+
+class FakeSprite(object):
+    visible = True
+    scale = 1
+    rotation = 0
+    x = 0
+    y = 0
+    opacity = 255
+    color = (255, 255, 255)
+    _texture = None
+    _image = None
+
+    @property
+    def position(self):
+        return self.x, self.y
+    @position.setter
+    def position(self, value):
+        self.x, self.y = value
+
+class Sprite(Drawable):
+
+    _disabled = True
+
+    def __init__(self, spr, drawing_layer):
+        super(Sprite, self).__init__(drawing_layer)
+        self._sprite = FakeSprite()
+        self._image = spr
+        self._sprite.width = self._image.width
+        self._sprite.height = self._image.height
+        self.bbox = (-self._sprite.width / 2, -self._sprite.height / 2, self._sprite.width / 2, self._sprite.height / 2)
 
     #wrapper properties for the underlying sprite
     @property
-    def visible(self): return self.spr.visible
+    def x(self): return self._sprite.x
+    @x.setter
+    def x(self, value): self._sprite.x = value
+
+    @property
+    def y(self): return self._sprite.y
+    @y.setter
+    def y(self, value): self._sprite.y = value
+
+    @property
+    def position(self): return self._sprite.position
+    @position.setter
+    def position(self, value): self._sprite.position = value
+
+    @property
+    def visible(self): return self._sprite.visible
     @visible.setter
-    def visible(self, value): self.spr.visible = value
+    def visible(self, value): self._sprite.visible = value
 
     @property
-    def scale(self): return self.spr.scale
+    def scale(self): return self._sprite.scale
     @scale.setter
-    def scale(self, value): self.spr.scale = value
+    def scale(self, value): self._sprite.scale = value
 
     @property
-    def opacity(self): return self.spr.opacity
+    def opacity(self): return self._sprite.opacity
     @opacity.setter
-    def opacity(self, value): self.spr.opacity = value
+    def opacity(self, value): self._sprite.opacity = value
+
+    @property
+    def disabled(self): return self._disabled
+    @disabled.setter
+    def disabled(self, value):
+        if value != self._disabled:
+            self._disabled = value
+            if value:
+                spr = FakeSprite()
+                spr.scale = self._sprite.scale
+                spr.rotation = self._sprite.rotation
+                spr.opacity = self._sprite.opacity
+                spr.visible = self._sprite.visible
+                spr.position = self._sprite.position
+                spr.color = self._sprite.color
+                self._sprite.delete()
+                self._sprite = spr
+            else:
+                spr = pyglet.sprite.Sprite(self._image, batch=renderer.batch, group=self.group)
+                spr.scale = self._sprite.scale
+                spr.rotation = self._sprite.rotation
+                spr.opacity = self._sprite.opacity
+                spr.visible = self._sprite.visible
+                spr.position = self._sprite.position
+                spr.color = self._sprite.color
+                self._sprite = spr
+
 
     def draw(self, x, y):
-        self.spr.x, self.spr.y = x, y
-        self.spr.draw()
+        if not self.require_draw:
+            self.require_draw = True
+            renderer.drawables_to_show.append(self)
+            if (x, y) != self._sprite.position:
+                self._sprite.position = (x, y)
+        else:
+            raise AssertionError("Drawing the same instance of a sprite twice in one frame")
 
 
 class Sound:

@@ -2,7 +2,6 @@ __author__ = 'Docopoper'
 
 from globals import *
 import globals
-import base_engine
 
 window = pyglet.window.Window(resizable=True, width=800, height=600)
 window.set_minimum_size(200, 150)
@@ -12,7 +11,7 @@ window.hidden = False
 @window.event
 def on_hide():
     window.hidden = True
-    base_engine.window_hidden = True
+    renderer.window_hidden = True
 
 
 @window.event
@@ -23,25 +22,25 @@ def on_show():
 @window.event
 def on_resize(width, height):
     try:
-        w = pyglet.image._nearest_pow2(base_engine.tex_draw.width)
-        h = pyglet.image._nearest_pow2(base_engine.tex_draw.height)
+        w = pyglet.image._nearest_pow2(renderer.tex_draw.width)
+        h = pyglet.image._nearest_pow2(renderer.tex_draw.height)
     except AttributeError:
-        base_engine.window_invalidated = True
+        renderer.window_invalidated = True
         return
 
     if not (w / 2 < window.width < w
     and h / 2 < window.height < h):
-        base_engine.window_invalidated = True
+        renderer.window_invalidated = True
 
 
 @window.event
 def on_draw():
-    if base_engine.window_hidden:
+    if renderer.window_hidden:
         return
     globals.camera.projection_default()
     try:
-        base_engine.tex_draw.blit(0, 0)
-    except AttributeError: engine._validate_window()
+        renderer.tex_draw.blit(0, 0)
+    except AttributeError: renderer._validate_window()
 
 
 @window.event

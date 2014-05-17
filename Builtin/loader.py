@@ -9,16 +9,30 @@ import wrappers
 
 class Loader:
     """deals with loading levels and importing objects"""
+    def level_clear(self):
+        for drawing_layer in renderer.drawing_layers.itervalues():
+            for drawable in drawing_layer.drawables:
+                drawable.disabled = True
+        for inst in engine.get_all_instances():
+            inst.destroy()
+
+    def section_clear(self):
+        for drawing_layer in renderer.drawing_layers.itervalues():
+            for drawable in drawing_layer.drawables:
+                drawable.disabled = True
+        for inst in engine.get_all_instances():
+            if not inst.section_persist:
+                inst.destroy()
+
     def goto_section(self, section_name):
-
-
+        self.section_clear()
         tags, section, layers = base_engine.loaded_sections[section_name]
         engine.section_tags = tags
-
         for layer_name, settings in layers:
             if layer_name not in engine.layers:
                 engine.layers[layer_name] = layer = wrappers.Layer()
 
+                layer.name = layer_name
                 for key, value in settings.iteritems():
                     setattr(layer, key, value)
 
@@ -26,13 +40,16 @@ class Loader:
 
         for module_name, class_name, layer_name, settings in section:
             engine.instance_create(module_name, class_name, layer_name, **settings)
+        #print time.clock() - t
 
 
-    def level_load(self, name, section_name=None):
+    def goto_level(self, name, section_name=None):
         if name.lower() == "global":
             raise NameError()
 
+        self.level_clear()
         engine.layers = {}
+        wrappers.next_layer_id = 0
         base_engine.objects_local = base_engine.dictionary_template.copy()
         folder_load(engine.path + "/Levels/" + name, base_engine.objects_local)
         for section in glob.glob(engine.path + "/Levels/" + name + "/*.lvl"):
@@ -212,5 +229,3 @@ def dump_wav(name, temp_dir):
     return output_path
 
 loader.global_load()
-#loader.level_load("My First Level")
-loader.level_load("Demo Level")

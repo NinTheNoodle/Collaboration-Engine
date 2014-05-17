@@ -3,16 +3,17 @@ from globals import *
 
 class GameObject(object):
 
+    instance_id = -1
     module_name = ""
     class_name = ""
     temporary = False # Whether the object gets destroyed when deactivated / disabled
     section_persist = False # Whether the object gets destroyed when changing level section
-    level_persist = False # Whether the object gets destroyed when changing level - only valid for global instances
     hspeed = 0
     vspeed = 0
     x_start = 0
     y_start = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
+    depth = 0
 
     _x = 0
     _y = 0
@@ -25,16 +26,30 @@ class GameObject(object):
     _bbox_collide = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision neutral to the player
     _destroyed = False
     _layer = None
+    _drawing_layer = "default"
+    _drawing_layer_depth = 0
     _hp = None
     _disabled = False # Whether the object will be permanently inactive due to being disabled. Usually by the layer being disabled
     _active = False # Whether the object is active and is receiving events as opposed to being too far off screen
     _visible = False # Whether the object is visible and receiving draw events as opposed to being off screen at all
 
-    _disabled_old = {} # Used in updating the object positions on instance grids (such as for collisions)
-    _x_old = {}
-    _y_old = {}
-    _layer_old = {}
-    _bbox_old = {}
+    def __init__(self):
+        self._disabled_old = {} # Used in updating the object positions on instance grids (such as for collisions)
+        self._x_old = {}
+        self._y_old = {}
+        self._layer_old = {}
+        self._bbox_old = {}
+        self._drawables = []
+
+    @property
+    def drawing_layer(self):
+        return self._drawing_layer
+
+    @drawing_layer.setter
+    def drawing_layer(self, value):
+        self._drawing_layer = value
+        for drawable in self._drawables:
+            drawable.update_group()
 
     @property
     def destroyed(self):
@@ -190,6 +205,9 @@ class GameObject(object):
             self._hp = value
 
     def on_die(self):
+        pass
+
+    def on_init(self):
         pass
 
     def on_create(self):

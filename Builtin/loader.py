@@ -26,8 +26,10 @@ class Loader:
 
     def goto_section(self, section_name):
         self.section_clear()
+
         tags, section, layers = base_engine.loaded_sections[section_name]
         engine.section_tags = tags
+
         for layer_name, settings in layers:
             if layer_name not in engine.layers:
                 engine.layers[layer_name] = layer = wrappers.Layer()
@@ -40,7 +42,6 @@ class Loader:
 
         for module_name, class_name, layer_name, settings in section:
             engine.instance_create(module_name, class_name, layer_name, **settings)
-        #print time.clock() - t
 
 
     def goto_level(self, name, section_name=None):

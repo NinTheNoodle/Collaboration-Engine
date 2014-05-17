@@ -2,3 +2,8 @@
 *.mp3
 *.wav
 *.png
+*.lvl
+*.txt
+Levels/*
+Global/*
+Temp/*

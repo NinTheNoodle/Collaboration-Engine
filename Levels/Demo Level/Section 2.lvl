@@ -1,0 +1,96 @@
+*StartSection
+*Top:1024
+*Left:-2048
+*Bottom:-1024
+*Right:2048
+
+@Default
+@Magic
+
+>Demo|background|Default
+#sprite_name:"Player"
+
+>Demo|player|Magic
+ x:0
+ y:0
+ stat_hspeed:5
+
+>Demo|tile|Magic
+ x:0
+ y:-128
+
+>Demo|tile|Magic
+ x:0
+ y:64
+
+>Demo|tile|Default
+ x:32
+ y:64
+
+>Demo|tile|Default
+ x:-32
+ y:64
+
+>Demo|tile|Default
+ x:64
+ y:64
+
+>Demo|tile|Default
+ x:-64
+ y:64
+
+>Demo|tile|Default
+ x:-64
+ y:32
+
+>Demo|tile|Default
+ x:128
+ y:0
+
+>Demo|tile|Default
+ x:160
+ y:-32
+
+>Demo|tile|Default
+ x:160
+ y:-64
+
+>Demo|tile|Default
+ x:160
+ y:-96
+
+>Demo|tile|Default
+ x:160
+ y:-128
+
+>Demo|tile|Default
+ x:-160
+ y:-32
+
+>Demo|tile|Default
+ x:-160
+ y:-64
+
+>Demo|tile|Default
+ x:-128
+ y:-64
+
+>Demo|tile|Default
+ x:-160
+ y:-96
+
+>Demo|tile|Default
+ x:-160
+ y:-128
+
+>Demo|tile|Default
+ x:-160
+ y:-160
+
+>Demo|tile|Default
+ x:-160
+ y:-192
+
+>Demo|enemy|Default
+ x:0
+ y:-192

@@ -7,32 +7,25 @@
   <component name="ChangeListManager">
     <list default="true" id="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" name="Default" comment="Separated rendering into its own module and added batched sprite rendering. Rendering is now super efficient.">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Levels/Demo Level/Section 2.lvl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Builtin/renderer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/Docopoper.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/Docopoper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/base_engine.py" afterPath="$PROJECT_DIR$/Builtin/base_engine.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/globals.py" afterPath="$PROJECT_DIR$/globals.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/instance_grid.py" afterPath="$PROJECT_DIR$/Builtin/instance_grid.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/loader.py" afterPath="$PROJECT_DIR$/Builtin/loader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/parent_object.py" afterPath="$PROJECT_DIR$/Builtin/parent_object.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/window.py" afterPath="$PROJECT_DIR$/Builtin/window.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Builtin/wrappers.py" afterPath="$PROJECT_DIR$/Builtin/wrappers.py" />
     </list>
     <ignored path="Collaboration Engine.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400277938396" ignored="false" />
-    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400294272811" ignored="false" />
+    <file path="/Dummy.txt" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400333178806" ignored="false" />
     <file path="/window.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400258888930" ignored="false" />
     <file path="/globals.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400189719256" ignored="false" />
     <file path="/engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394821755157" ignored="false" />
-    <file path="/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926505602" ignored="false" />
-    <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926509122" ignored="false" />
+    <file path="/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400363065303" ignored="false" />
+    <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/global_access.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400363065886" ignored="false" />
     <file path="/object.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394453578029" ignored="false" />
-    <file path="/loader.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400281658747" ignored="false" />
+    <file path="/loader.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400367111561" ignored="false" />
     <file path="/__init__.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394410726344" ignored="false" />
     <file path="/camera.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1397851760647" ignored="false" />
-    <file path="/base_engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400293987821" ignored="false" />
+    <file path="/base_engine.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400367947399" ignored="false" />
     <file path="/lib.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394824729010" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/window.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926993218" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Ctrl/audio.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1394926978109" ignored="false" />
@@ -40,7 +33,7 @@
     <file path="$PROJECT_DIR$/../Utter Confusion/main.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399465339186" ignored="false" />
     <file path="/test.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1398681641994" ignored="false" />
     <file path="/resource_wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1395856481550" ignored="false" />
-    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400278817786" ignored="false" />
+    <file path="/wrappers.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400367724370" ignored="false" />
     <file path="/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047405376" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/game.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047512704" ignored="false" />
     <file path="$PROJECT_DIR$/../Utter Confusion/Objects/confetti.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1396047595254" ignored="false" />
@@ -73,6 +66,7 @@
     <file path="/instance_grid.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1399502296240" ignored="false" />
     <file path="/background.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400278892670" ignored="false" />
     <file path="/renderer.py" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400279321676" ignored="false" />
+    <file path="/.gitignore" changelist="0a1ece47-2eab-4f5e-9fcc-dfcef9759a33" time="1400294514156" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,19 +95,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="player.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="22" selection-start="4233" selection-end="4233" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="background.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/background.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="4" selection-start="1235" selection-end="1283" vertical-scroll-proportion="0.0">
+            <state line="23" column="31" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -122,7 +107,7 @@
       <file leaf-file-name="loader.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="66" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
+            <state line="31" column="0" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -146,10 +131,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base_engine.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="base_engine.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="177" column="46" selection-start="6197" selection-end="6197" vertical-scroll-proportion="0.26824033">
+            <state line="12" column="20" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Section 1.lvl" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="14" selection-start="157" selection-end="157" vertical-scroll-proportion="0.51293105">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="camera.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Builtin/camera.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="8" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -158,21 +161,8 @@
       <file leaf-file-name="renderer.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/renderer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="35" selection-start="1196" selection-end="1196" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#26#47#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sprite.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/sprite.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="246" column="34" selection-start="8583" selection-end="8583" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#3644#3655#0" expanded="true" />
-              </folding>
+            <state line="32" column="33" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -180,7 +170,7 @@
       <file leaf-file-name="wrappers.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="31" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
+            <state line="173" column="17" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -204,22 +194,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/globals.py" />
         <option value="$PROJECT_DIR$/Builtin/camera.py" />
         <option value="$PROJECT_DIR$/Builtin/window.py" />
         <option value="$PROJECT_DIR$/Levels/Demo Level/Demo/Section 2.lvl" />
-        <option value="$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl" />
         <option value="$PROJECT_DIR$/Levels/Demo Level/Section 2.lvl" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Global/Demo/Objects/background.py" />
-        <option value="$PROJECT_DIR$/Builtin/wrappers.py" />
         <option value="$PROJECT_DIR$/Builtin/renderer.py" />
         <option value="$PROJECT_DIR$/Builtin/parent_object.py" />
-        <option value="$PROJECT_DIR$/Builtin/loader.py" />
         <option value="$PROJECT_DIR$/Global/Demo/Objects/player.py" />
         <option value="$PROJECT_DIR$/Levels/Demo Level/Demo/Objects/enemy.py" />
         <option value="$PROJECT_DIR$/Global/Demo/Objects/tile.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/Builtin/loader.py" />
+        <option value="$PROJECT_DIR$/Builtin/wrappers.py" />
         <option value="$PROJECT_DIR$/Builtin/base_engine.py" />
+        <option value="$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl" />
       </list>
     </option>
   </component>
@@ -274,6 +264,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -302,6 +293,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Temp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Collaboration Engine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Levels" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -321,28 +326,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Demo Level" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Collaboration Engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Collaboration Engine" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Levels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Demo Level" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Demo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -416,21 +399,20 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="212" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="212" />
     <property name="options.splitter.main.proportions" value="0.3025" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="213" />
+    <property name="recentsLimit" value="5" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="213" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="887" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="887" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="887" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="213" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="211" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
@@ -701,7 +683,11 @@
       <created>1399428247172</created>
       <updated>1399428247172</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Separated rendering into its own module and added batched sprite rendering. Rendering is now super efficient.">
+      <created>1400294346527</created>
+      <updated>1400294346527</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -710,18 +696,18 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287483" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44170097" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20785071" sideWeight="0.6735254" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24646075" sideWeight="0.67489713" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24967825" sideWeight="0.67400277" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3978052" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32599726" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3251029" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32599726" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921812" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44170097" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -771,7 +757,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got the visibility and activity systems to use the new hash grid format for checking." />
+    <option name="LAST_COMMIT_MESSAGE" value="Separated rendering into its own module and added batched sprite rendering. Rendering is now super efficient." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -801,6 +787,7 @@
     <MESSAGE value="Got bounding box collisions working! (in a non-brute force way)" />
     <MESSAGE value="Separated the collision system's instance grid into another module so that I can use it for the engine's other systems." />
     <MESSAGE value="Got the visibility and activity systems to use the new hash grid format for checking." />
+    <MESSAGE value="Separated rendering into its own module and added batched sprite rendering. Rendering is now super efficient." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -811,78 +798,50 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Builtin/camera.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="68" selection-start="281" selection-end="282" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/window.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="5" selection-start="998" selection-end="998" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#26#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/graphics/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="344" column="28" selection-start="12717" selection-end="12717" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="19" selection-start="818" selection-end="818" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="26" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="26" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 2.lvl">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="0" selection-start="846" selection-end="846" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="96" column="0" selection-start="846" selection-end="846" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../Extraction Warehouse/pyglet-1.1.4/pyglet-1.1.4/pyglet/sprite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="246" column="34" selection-start="8583" selection-end="8583" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#3644#3655#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="246" column="34" selection-start="8583" selection-end="8583" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
+    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Demo/Collision Types.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="31" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="6" selection-start="60" selection-end="60" vertical-scroll-proportion="0.19345662">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/renderer.py">
+    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="35" selection-start="1196" selection-end="1196" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#26#47#0" expanded="true" />
-          </folding>
+        <state line="119" column="22" selection-start="4233" selection-end="4233" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Builtin/loader.py">
+    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/tile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="66" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
+        <state line="17" column="22" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Demo/Objects/enemy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="22" selection-start="2937" selection-end="2937" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -896,35 +855,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/background.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="4" selection-start="1235" selection-end="1283" vertical-scroll-proportion="0.0">
+        <state line="23" column="31" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/player.py">
+    <entry file="file://$PROJECT_DIR$/Builtin/loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="22" selection-start="4233" selection-end="4233" vertical-scroll-proportion="0.0">
+        <state line="31" column="0" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Demo/Objects/enemy.py">
+    <entry file="file://$PROJECT_DIR$/Builtin/wrappers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="22" selection-start="2937" selection-end="2937" vertical-scroll-proportion="0.0">
+        <state line="173" column="17" selection-start="4350" selection-end="4350" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Global/Demo/Objects/tile.py">
+    <entry file="file://$PROJECT_DIR$/Builtin/renderer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="22" selection-start="462" selection-end="462" vertical-scroll-proportion="0.0">
+        <state line="32" column="33" selection-start="967" selection-end="967" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Builtin/camera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="8" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Builtin/base_engine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="46" selection-start="6197" selection-end="6197" vertical-scroll-proportion="0.26824033">
+        <state line="12" column="20" selection-start="270" selection-end="270" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Levels/Demo Level/Section 1.lvl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="14" selection-start="157" selection-end="157" vertical-scroll-proportion="0.51293105">
           <folding />
         </state>
       </provider>

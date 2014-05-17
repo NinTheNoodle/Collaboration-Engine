@@ -404,8 +404,6 @@ class EventHandler:
         engine.frame += 1
         engine.time += dt
 
-        camera.on_tick()
-
         if key.R in engine.keys_pressed: globals.loader.goto_level("Demo Level")
 
         globals.collision.layers_move()
@@ -421,6 +419,7 @@ class EventHandler:
             self.dispatch_event("on_tick")
             self.dispatch_event("on_end_tick")
 
+        camera.on_tick()
         renderer._validate_window()
         engine._instances_update_states()
 

@@ -10,11 +10,12 @@ class GameObject(object):
     section_persist = False # Whether the object gets destroyed when changing level section
     hspeed = 0
     vspeed = 0
-    x_start = 0
-    y_start = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
     depth = 0
 
+    _x_start = 0
+    _y_start = 0
+    _layer_start = None
     _x = 0
     _y = 0
     _always_active = False # Whether the object will deactivate when off screen or not
@@ -88,6 +89,18 @@ class GameObject(object):
                 self.visible = True
             self._always_visible = value
             engine.instance_update_visibility(self)
+
+    @property
+    def x_start(self):
+        return self._x_start + self._layer_start._x
+
+    @property
+    def y_start(self):
+        return self._y_start + self._layer_start._y
+
+    @property
+    def layer_start(self):
+        return self._layer_start
 
     @property
     def x(self):

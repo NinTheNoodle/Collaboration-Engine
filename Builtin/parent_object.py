@@ -1,17 +1,22 @@
+import Builtin.wrappers
+
 __author__ = 'Docopoper'
 from globals import *
+from Builtin.collidable import CollisionRectangle, CollisionMesh, CollisionNull
 
 class GameObject(object):
 
     instance_id = -1
     module_name = ""
     class_name = ""
+    layer_name = ""
     temporary = False # Whether the object gets destroyed when deactivated / disabled
     section_persist = False # Whether the object gets destroyed when changing level section
     hspeed = 0
     vspeed = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
     depth = 0
+    bbox_surface = "None" # Returned as the surface when a simple bounding box is used
 
     _x_start = 0
     _y_start = 0
@@ -24,7 +29,8 @@ class GameObject(object):
     _bbox_select = (-16, -16, 16, 16) # Bounding box for selection in the editor
     _bbox_active = (-16, -16, 16, 16) # Bounding box to determine when this object activates and deactivates
     _bbox_visible = (-16, -16, 16, 16) # Bounding box to determine when this object is visible on screen
-    _bbox_collide = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision neutral to the player
+    _bbox_collide = (-16, -16, 16, 16) # Bounding box to determine when this object is going to make a collision
+    _collision_mesh = None # Precise collision mesh for an object
     _destroyed = False
     _layer = None
     _drawing_layer = "default"
@@ -41,6 +47,7 @@ class GameObject(object):
         self._layer_old = {}
         self._bbox_old = {}
         self._drawables = []
+        self._collision_mesh = CollisionNull()
 
     @property
     def drawing_layer(self):
@@ -92,11 +99,11 @@ class GameObject(object):
 
     @property
     def x_start(self):
-        return self._x_start + self._layer_start._x
+        return self._x_start + self.layer_start.x
 
     @property
     def y_start(self):
-        return self._y_start + self._layer_start._y
+        return self._y_start + self.layer_start.y
 
     @property
     def layer_start(self):
@@ -104,10 +111,11 @@ class GameObject(object):
 
     @property
     def x(self):
-        return self._x
+        return self._x + self.layer.x
 
     @x.setter
     def x(self, value):
+        value -= self.layer.x
         if self._x != value:
             self._x = value
             collision.instance_update_collision(self)
@@ -115,11 +123,32 @@ class GameObject(object):
             engine.instance_update_visibility(self)
 
     @property
+    def angle(self):
+        return self._collision_mesh.angle
+
+    @angle.setter
+    def angle(self, value):
+        if self._collision_mesh.angle != value:
+            self._collision_mesh.angle = value
+            collision.instance_update_collision(self)
+
+    @property
+    def scale(self):
+        return self._collision_mesh.scale
+
+    @scale.setter
+    def scale(self, value):
+        if self._collision_mesh.scale != value:
+            self._collision_mesh.scale = value
+            collision.instance_update_collision(self)
+
+    @property
     def y(self):
-        return self._y
+        return self._y + self.layer.y
 
     @y.setter
     def y(self, value):
+        value -= self.layer.y
         if self._y != value:
             self._y = value
             collision.instance_update_collision(self)
@@ -128,15 +157,7 @@ class GameObject(object):
 
     @property
     def bbox_collide(self):
-        return self._bbox_collide
-
-    @bbox_collide.setter
-    def bbox_collide(self, value):
-        if self._bbox_collide != value:
-            self._bbox_collide = value
-            collision.instance_update_collision(self)
-            engine.instance_update_activity(self)
-            engine.instance_update_visibility(self)
+        return self._collision_mesh.bbox
 
     @property
     def layer(self):
@@ -159,8 +180,12 @@ class GameObject(object):
             engine.instance_update_visibility(self)
 
     @property
-    def disabled(self):
+    def user_disabled(self):
         return self._disabled
+
+    @property
+    def disabled(self):
+        return self._disabled or self.layer.disabled
 
     @disabled.setter
     def disabled(self, value):
@@ -168,15 +193,13 @@ class GameObject(object):
             self.destroy()
         else:
             if value and not self._disabled:
-                engine.instance_disable(self)
-                collision.instance_update_collision(self)
-                engine.instance_update_activity(self)
-                engine.instance_update_visibility(self)
+                self._disabled = True
+                if not self.layer.disabled:
+                    engine.instance_disable(self)
             elif not value and self._disabled:
-                engine.instance_enable(self)
-                collision.instance_update_collision(self)
-                engine.instance_update_activity(self)
-                engine.instance_update_visibility(self)
+                self._disabled = False
+                if not self.layer.disabled:
+                    engine.instance_enable(self)
 
     @property
     def active(self):
@@ -249,3 +272,15 @@ class GameObject(object):
 
     def destroy(self):
         engine.instance_destroy(self)
+
+    def set_collision_rectangle(self, x1, y1, x2, y2, sur_top, sur_right=None, sur_bottom=None, sur_left=None):
+        collision_mesh = CollisionRectangle(self, x1, y1, x2, y2, sur_top, sur_right, sur_bottom, sur_left)
+        if self.bbox_collide != collision_mesh.bbox:
+            collision.instance_update_collision(self)
+        self._collision_mesh = collision_mesh
+
+    def set_collision_mesh(self, *data):
+        collision_mesh = CollisionMesh(self, *data)
+        if self.bbox_collide != collision_mesh.bbox:
+            collision.instance_update_collision(self)
+        self._collision_mesh = collision_mesh

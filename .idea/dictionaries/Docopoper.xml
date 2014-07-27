@@ -1,9 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Docopoper">
     <words>
+      <w>collidable</w>
       <w>demuxer</w>
       <w>drawables</w>
       <w>goto</w>
+      <w>prec</w>
+      <w>raycast</w>
       <w>reff</w>
       <w>resized</w>
       <w>vulpix</w>

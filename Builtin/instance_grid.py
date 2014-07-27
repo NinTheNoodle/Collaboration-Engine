@@ -52,7 +52,7 @@ class InstanceGrid(object):
                             layer_to.instance_dict[self.id] = {}
                             layer_to.instance_dict[self.id][pos] = {inst}
 
-            inst._disabled_old[self.id] = inst._disabled
+            inst._disabled_old[self.id] = disabled
             inst._layer_old[self.id] = layer_to
             inst._bbox_old[self.id] = bbox_to
             inst._x_old[self.id] = x_to
@@ -60,26 +60,24 @@ class InstanceGrid(object):
 
         self.updates.clear()
 
-    def instances_rectangle(self, x1, y1, x2, y2):
+    def instances_rectangle(self, x1, y1, x2, y2, layers=None):
         self.update_collision_dicts()
         rect = (x1, y1, x2, y2)
         found = set()
-        for layer in globals.engine.layers.itervalues():
-            for cell in self._box_to_cells(-layer.x, -layer.y, rect, layer.cell_size):
-                try:
-                    found |= layer.instance_dict[self.id][cell]
-                except KeyError: pass
+
+        if layers is None:
+            layers = globals.engine.layers.itervalues()
+
+        for layer in layers:
+            if not layer.disabled:
+                for cell in self._box_to_cells(-layer.x, -layer.y, rect, layer.cell_size):
+                    try:
+                        found |= layer.instance_dict[self.id][cell]
+                    except KeyError: pass
         return found
 
     def instance_update(self, inst):
-        disabled = False
-        for var in self.disabling_variables:
-            if getattr(inst, var):
-                disabled = True
-                break
-
-        if not disabled:
-            self.updates.add(inst)
+        self.updates.add(inst)
 
     def instance_abort_update(self, inst):
         try:

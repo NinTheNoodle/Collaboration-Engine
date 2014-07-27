@@ -41,7 +41,7 @@ class Loader:
                 layer.on_create()
 
         for module_name, class_name, layer_name, settings in section:
-            engine.instance_create(module_name, class_name, layer_name, **settings)
+            engine.instance_create_section_start(module_name, class_name, layer_name, **settings)
 
 
     def goto_level(self, name, section_name=None):
@@ -161,10 +161,15 @@ def resource_pack_load(path, dictionary):
 
         for obj in glob.glob(path + "/Objects/*.py"):
             object_name = os.path.splitext(os.path.basename(obj))[0]
-            file_dict = {}
+            file_dict = base_file_dict.copy()
             execfile(obj, file_dict)
             try:
                 engine._register_class_dict(module_name, object_name, file_dict[object_name], dictionary)
+            except KeyError: pass
+
+            try:
+                for surface, parent in file_dict["defined_surfaces"].iteritems():
+                    engine._register_surface_dict(module_name, surface, parent, dictionary)
             except KeyError: pass
 
 
@@ -228,5 +233,14 @@ def dump_wav(name, temp_dir):
 
                     snd.writeframes(r.data)
     return output_path
+
+def generate_base_file_dictionary():
+    dictionary = {}
+
+    exec("from globals import *", dictionary)
+
+    return dictionary
+
+base_file_dict = generate_base_file_dictionary()
 
 loader.global_load()

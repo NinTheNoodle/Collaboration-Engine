@@ -8,14 +8,12 @@ next_layer_id = 0
 class Layer(object):
     layer_id = -1
     name = ""
-    _x = 0
-    _y = 0
-    _x_current = 0
-    _y_current = 0
+    x = 0
+    y = 0
     hspeed = 0
     vspeed = 0
     _disabled = False
-    cell_size = 32
+    cell_size = 64
 
     def on_create(self):
         global next_layer_id
@@ -25,47 +23,21 @@ class Layer(object):
         self.instance_dict = {}
 
     @property
-    def x(self):
-        return self._x
-
-    @x.setter
-    def x(self, value):
-        change = value - self._x
-        if change != 0:
-            for inst in self.instances:
-                inst._x += change
-            self._x = value
-
-    @property
-    def y(self):
-        return self._y
-
-    @y.setter
-    def y(self, value):
-        change = value - self._y
-        if change != 0:
-            for inst in self.instances:
-                inst._y += change
-            self._y = value
-
-    @property
     def disabled(self):
         return self._disabled
 
     @disabled.setter
     def disabled(self, value):
+        was_disabled = self._disabled
         self._disabled = value
         for inst in self.instances:
-            inst.disabled = value
-
-    def move(self, dx, dy):
-        if (dx, dy) != (0, 0):
-            for inst in self.instances:
-                inst._x += dx
-                inst._y += dy
-
-            self._x += dx
-            self._y += dy
+            if inst.temporary and value:
+                inst.destroy()
+            else:
+                if value and not inst._disabled and not was_disabled:
+                    base_engine.engine.instance_disable(inst, True)
+                elif not value and not inst._disabled and was_disabled:
+                    base_engine.engine.instance_enable(inst, True)
 
 class Drawable(object):
     def __init__(self, drawing_layer):
@@ -134,6 +106,11 @@ class Sprite(Drawable):
     def y(self): return self._sprite.y
     @y.setter
     def y(self, value): self._sprite.y = value
+
+    @property
+    def angle(self): return self._sprite.rotation
+    @angle.setter
+    def angle(self, value): self._sprite.rotation = value
 
     @property
     def position(self): return self._sprite.position

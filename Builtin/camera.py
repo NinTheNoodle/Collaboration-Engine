@@ -9,19 +9,21 @@ class Camera:
     y = 0
     view_width = 800
     view_height = 600
-    active_width = 800
-    active_height = 600
+    active_scale = 1
+    visible_scale = 1
 
     def on_tick(self):
-        globals.engine.visibility_region(self.x - self.view_width / 2,
-                                         self.y - self.view_height / 2,
-                                         self.x + self.view_width / 2,
-                                         self.y + self.view_height / 2)
+        if self.visible_scale > 0:
+            globals.engine.visibility_region(self.x - self.visible_scale * self.view_width / 2,
+                                             self.y - self.visible_scale * self.view_height / 2,
+                                             self.x + self.visible_scale * self.view_width / 2,
+                                             self.y + self.visible_scale * self.view_height / 2)
 
-        globals.engine.activity_region(self.x - self.active_width / 2,
-                                       self.y - self.active_height / 2,
-                                       self.x + self.active_width / 2,
-                                       self.y + self.active_height / 2)
+        if self.active_scale > 0:
+            globals.engine.activity_region(self.x - self.active_scale * self.view_width / 2,
+                                           self.y - self.active_scale * self.view_height / 2,
+                                           self.x + self.active_scale * self.view_width / 2,
+                                           self.y + self.active_scale * self.view_height / 2)
 
     def projection_world(self):
         try:

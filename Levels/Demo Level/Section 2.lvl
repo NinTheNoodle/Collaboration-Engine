@@ -14,6 +14,7 @@
  x:0
  y:0
  stat_hspeed:5
+ stat_haccel:1
 
 >Demo|tile|Magic
  x:0
@@ -91,6 +92,6 @@
  x:-160
  y:-192
 
->Demo|enemy|Default
+>Demo|enemy|Magic
  x:0
  y:-192

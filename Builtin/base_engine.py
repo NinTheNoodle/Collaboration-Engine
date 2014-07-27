@@ -4,6 +4,7 @@ from globals import *
 import globals
 import sys
 import os
+import math
 
 
 #engine interface - all variables visible to the outside world
@@ -49,17 +50,30 @@ class Engine(object):
         global desired_editor_mode
         desired_editor_mode = value
 
+    def sin_table(self, x):
+        return sin_table[(int(degrees(x)) * 2) % 720]
+
+    def cos_table(self, x):
+        return cos_table[(int(degrees(x)) * 2) % 720]
+
+    def instance_create_section_start(self, module_name, class_name, layer_name, x=0, y=0, **kwargs):
+        layer = engine.layers[layer_name]
+        x += layer.x
+        y += layer.y
+        self.instance_create(module_name, class_name, layer_name, x, y, **kwargs)
+
     def instance_create(self, module_name, class_name, layer_name, x=0, y=0, **kwargs):
         inst = engine.get_class(module_name, class_name)()
         layer = engine.layers[layer_name]
 
         inst._layer_start = inst.layer = layer
-        inst._y_start = y - layer._y
-        inst._x_start = x - layer._x
+        inst._y_start = y - layer.y
+        inst._x_start = x - layer.x
         inst.x = x
         inst.y = y
         inst.module_name = module_name
         inst.class_name = class_name
+        inst.layer_name = layer_name
 
         engine.get_enabled_instances(module_name, class_name).add(inst)
         engine.get_invisible_instances(module_name, class_name).add(inst)
@@ -122,24 +136,34 @@ class Engine(object):
         self.visibility_regions.append((x1, y1, x2, y2))
 
     #region Instance state manipulation functions
-    def instance_disable(self, inst):
+    def instance_disable(self, inst, layer_update=False):
         try:
             engine.get_enabled_instances(inst.module_name, inst.class_name).remove(inst)
         except KeyError: pass
         engine.get_disabled_instances(inst.module_name, inst.class_name).add(inst)
-        inst._disabled = True
-        self.instance_update_handler_draw(inst)
-        self.instance_update_handler_tick(inst)
+        if inst.visible:
+            self.instance_update_handler_draw(inst)
+        if inst.active:
+            self.instance_update_handler_tick(inst)
+        if not layer_update:
+            globals.collision.instance_update_collision(inst)
+            engine.instance_update_activity(inst)
+            engine.instance_update_visibility(inst)
         inst.on_disable()
 
-    def instance_enable(self, inst):
+    def instance_enable(self, inst, layer_update=False):
         try:
             engine.get_disabled_instances(inst.module_name, inst.class_name).remove(inst)
         except KeyError: pass
         engine.get_enabled_instances(inst.module_name, inst.class_name).add(inst)
-        inst._disabled = False
-        self.instance_update_handler_draw(inst)
-        self.instance_update_handler_tick(inst)
+        if inst.visible:
+            self.instance_update_handler_draw(inst)
+        if inst.active:
+            self.instance_update_handler_tick(inst)
+        if not layer_update:
+            globals.collision.instance_update_collision(inst)
+            engine.instance_update_activity(inst)
+            engine.instance_update_visibility(inst)
         inst.on_enable()
 
     def instance_activate(self, inst):
@@ -197,7 +221,7 @@ class Engine(object):
                                           "on_end_tick", "on_editor_end_tick")
     #endregion
 
-    #find the currently scoped class of the given name
+    #find the currently scoped object of the given name
     def _get_object(self, module_name, object_type, object_name):
         try:
             return objects_local[object_type][(module_name, object_name)]
@@ -207,6 +231,8 @@ class Engine(object):
             except KeyError:
                 you_done_goofed = "Unknown " + object_type + " '" + str(object_name) + "' in module '" + str(module_name) + "'"
                 raise KeyError(you_done_goofed)
+
+
 
     #region get_object convenience methods
     def get_class(self, module_name="*", class_name=None):
@@ -272,7 +298,7 @@ class Engine(object):
         return engine._get_object(module_name, "disabled instance", class_name)
     #endregion
 
-    #region Class registration functions
+    #region Resource registration functions
 
     def _register_class_dict(self, module_name, class_name, class_ref, dictionary):
         dictionary["class"][(module_name, class_name)] = class_ref
@@ -283,14 +309,22 @@ class Engine(object):
         dictionary["invisible instance"][(module_name, class_name)] = set()
         dictionary["enabled instance"][(module_name, class_name)] = set()
         dictionary["disabled instance"][(module_name, class_name)] = set()
+        class_ref.is_local = (dictionary is objects_local)
+
+    def _register_object_dict(self, module_name, object_type, object_name, object_ref, dictionary):
+        dictionary[object_type][(module_name, object_name)] = object_ref
+
+    def _register_surface_dict(self, module_name, surface_name, parent_name, dictionary):
+        self._register_object_dict(module_name, "surface", surface_name, parent_name, dictionary)
 
     #register a new object on the local scope
     def _register_object_local(self, module_name, object_type, object_name, object_ref):
-        objects_local[object_type][(module_name, object_name)] = object_ref
+        self._register_object_dict(module_name, object_type, object_name, object_ref, objects_local)
 
     #region register_object_local convenience methods
     def register_class_local(self, module_name, class_name, class_ref):
         self._register_class_dict(module_name, class_name, class_ref, objects_local)
+        class_ref.is_local = True
 
     def register_sprite_local(self, module_name, sprite_name, image_ref):
         engine._register_object_local(module_name, "sprite", sprite_name, image_ref)
@@ -303,16 +337,18 @@ class Engine(object):
 
     def register_resource_local(self, module_name, resource_name, file_name):
         engine._register_object_local(module_name, "resource", resource_name, file_name)
+
+    def register_surface_local(self, module_name, surface_name, parent_name):
+        engine._register_object_local(module_name, "resource", surface_name, parent_name)
     #endregion
 
     #register a new object on the global scope
     def _register_object_global(self, module_name, object_type, object_name, object_ref):
-        objects_global[object_type][(module_name, object_name)] = object_ref
-        object_ref.is_local = False
-
-    #region register_object_local convenience methods
+        self._register_object_dict(module_name, object_type, object_name, object_ref, objects_global)
+    #region register_object_global convenience methods
     def register_class_global(self, module_name, class_name, class_ref):
         self._register_class_dict(module_name, class_name, class_ref, objects_global)
+        class_ref.is_local = False
 
     def register_sprite_global(self, module_name, sprite_name, image_ref):
         engine._register_object_global(module_name, "sprite", sprite_name, image_ref)
@@ -325,6 +361,9 @@ class Engine(object):
 
     def register_resource_global(self, module_name, resource_name, file_name):
         engine._register_object_global(module_name, "resource", resource_name, file_name)
+
+    def register_surface_global(self, module_name, surface_name, parent_name):
+        engine._register_object_global(module_name, "resource", surface_name, parent_name)
     #endregion
 
     #endregion
@@ -377,15 +416,19 @@ class Engine(object):
 
 engine = Engine()
 
-editor_mode = False  # the actual state of being in editor mode or not - updated at the end of a tick
-desired_editor_mode = editor_mode  # what to set _editor_mode to at the end of the tick
+editor_mode = False  # The actual state of being in editor mode or not - updated at the end of a tick
+desired_editor_mode = editor_mode  # What to set _editor_mode to at the end of the tick
 
-#internal dictionaries of names to references
+# Internal dictionaries of names to references
 dictionary_template = {"class": {}, "sprite": {}, "sound": {}, "music": {}, "resource": {},
                        "instance": {}, "active instance": {}, "inactive instance": {}, "visible instance": {},
-                       "invisible instance": {}, "enabled instance": {}, "disabled instance": {}}
+                       "invisible instance": {}, "enabled instance": {}, "disabled instance": {}, "surface": {}}
 objects_global = dictionary_template.copy()
 objects_local = dictionary_template.copy()
+
+# A quick way of getting sin and cos to half a degree of accuracy
+sin_table = [math.sin(radians(x / 2)) for x in xrange(720)]
+cos_table = [math.cos(radians(x / 2)) for x in xrange(720)]
 
 layers = {}
 

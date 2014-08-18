@@ -27,6 +27,8 @@ class Engine(object):
 
     mouse_x = 0
     mouse_y = 0
+    window_mouse_x = 0
+    window_mouse_y = 0
 
     section_tags = set()
 
@@ -451,9 +453,13 @@ class EventHandler:
         engine.frame += 1
         engine.time += dt
 
+        if globals.window.width > 0 and globals.window.height:
+            engine.mouse_x = engine.window_mouse_x * (float(camera.view_width) / globals.window.width) + camera.x - camera.view_width / 2
+            engine.mouse_y = camera.view_height / 2 - (engine.window_mouse_y * (float(camera.view_height) / globals.window.height) - camera.y)
+
         if key.R in engine.keys_pressed: globals.loader.goto_level("Demo Level")
 
-        globals.collision.layers_move()
+        globals.collision.movement_phase()
 
         if engine.editor_mode:
             camera.view_width = globals.window.width

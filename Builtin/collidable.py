@@ -6,11 +6,15 @@ class Collidable(object):
     bbox = (0, 0, 0, 0)
     surfaces = []
     _points = []
+    _points_next = []
+    _points_previous = []
+    _points_next_previous = []
     is_rectangle = False
     _angle = 0
     _scale = 1
     _point_distances = None
     _point_angles = None
+    inst = None
 
     @property
     def points(self):
@@ -21,8 +25,23 @@ class Collidable(object):
         self.is_rectangle = False
         self._point_distances = None
         self._point_angles = None
-        self._points = value
+        self._points = self._points_next = value
+        self._calculate_rotatable_mesh()
         self.update_bounding_box()
+        collision.line_grid.collidable_abort_update(self)
+
+    @property
+    def points_next(self):
+        return self._points_next
+
+    @points_next.setter
+    def points_next(self, value):
+        self.is_rectangle = False
+        self._point_distances = None
+        self._point_angles = None
+        self._points_next = value
+        self._calculate_rotatable_mesh()
+        collision.line_grid.collidable_update(self)
 
     @property
     def angle(self):
@@ -40,10 +59,36 @@ class Collidable(object):
     def scale(self, value):
         self.transform(value, self.angle)
 
+    @property
+    def lines(self):
+        for i in xrange(len(self._points)):
+            yield self._points[i] + self._points[(i + 1) % len(self._points)]
+
+    @property
+    def lines_next(self):
+        for i in xrange(len(self._points_next)):
+            yield self._points_next[i] + self._points_next[(i + 1) % len(self._points_next)]
+
+    @property
+    def _lines_previous(self):
+        for i in xrange(len(self._points_previous)):
+            yield self._points_previous[i] + self._points_previous[(i + 1) % len(self._points_previous)]
+
+    @property
+    def _lines_next_previous(self):
+        for i in xrange(len(self._points_next_previous)):
+            yield self._points_next_previous[i] + self._points_next_previous[(i + 1) % len(self._points_next_previous)]
+
+    def _update_points(self):
+        self._points_previous = self._points[:]
+        self._points_next_previous = self._points_next[:]
+        self._points = self._points_next[:]
+        self.update_bounding_box()
+
     def _calculate_rotatable_mesh(self):
         #distances and directions from each point to the origin of this mesh (0,0)
-        self._point_distances = [sqrt(p[0] ** 2 + p[1] ** 2) for p in self._points]
-        self._point_angles = [atan2(p[1], p[0]) for p in self._points]
+        self._point_distances = [sqrt(p[0] ** 2 + p[1] ** 2) for p in self._points_next]
+        self._point_angles = [atan2(p[1], p[0]) for p in self._points_next]
 
     def update_bounding_box(self):
         self.bbox = tuple(map(min, zip(*self._points)) + map(max, zip(*self._points)))
@@ -62,12 +107,12 @@ class Collidable(object):
         if angle != 0:
             self._point_angles = [p - angle for p in self._point_angles]
 
-        for i in xrange(len(self._points)):
+        for i in xrange(len(self._points_next)):
             a = self._point_angles[i]
             d = self._point_distances[i]
-            self._points[i] = (d * engine.cos_table(a), d * engine.sin_table(a))
+            self._points_next[i] = (d * engine.cos_table(a), d * engine.sin_table(a))
 
-        self.update_bounding_box()
+        collision.line_grid.collidable_update(self)
 
     def _raycastLine(self, x1, y1, x2, y2, ray_x, ray_y, ray_dx, ray_dy):
         #Translated to python and modified from http://alienryderflex.com/intersect/
@@ -218,7 +263,6 @@ class Collidable(object):
         return collisions, max_dist
 
     def _rect_to_rect(self, collidable, x_diff, y_diff):
-        print "rect"
         if not (self.bbox[2] > collidable.bbox[0] + x_diff and
                 self.bbox[3] > collidable.bbox[1] + y_diff and
                 self.bbox[0] < collidable.bbox[2] + x_diff and
@@ -307,6 +351,9 @@ class CollisionRectangle(Collidable):
         self.surfaces = [sur_top, sur_right, sur_bottom, sur_left]
         #print self.surfaces
         self._points = [(x1, y1), (x2, y1), (x2, y2), (x1, y2)]
+        self._points_next = self._points[:]
+        self._points_next_previous = self._points_previous = [(None, None)] * len(self._points)
+        collision.line_grid.collidable_update(self)
 
 
 
@@ -319,7 +366,11 @@ class CollisionMesh(Collidable):
         self._points = list(data[::2])
         self.surfaces = list(data[1::2])
 
+
+        self._points_next = self._points[:]
+        self._points_next_previous = self._points_previous = [(None, None)] * len(self._points)
         self.update_bounding_box()
+        collision.line_grid.collidable_update(self)
 
 class CollisionNull(object):
     bbox = (0, 0, 0, 0)

@@ -89,8 +89,8 @@ class InstanceGrid(object):
         return [(xx, yy)
                 for yy in
                 xrange(int((y + bbox[1]) // cell_size),
-                       int(ceil(float(y + bbox[3]) / cell_size)))
+                       int(1 + (float(y + bbox[3]) // cell_size)))
                 for xx in
                 xrange(int((x + bbox[0]) // cell_size),
-                       int(ceil(float(x + bbox[2]) / cell_size)))
+                       int(1 + (float(x + bbox[2]) // cell_size)))
                 ]

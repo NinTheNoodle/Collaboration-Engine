@@ -14,6 +14,8 @@ from Builtin.renderer import renderer
 
 from Builtin import instance_grid
 
+from Builtin import line_grid
+
 from Builtin.camera import camera
 
 from Builtin.base_engine import engine

@@ -21,6 +21,7 @@ class Layer(object):
         next_layer_id += 1
         self.instances = set()
         self.instance_dict = {}
+        self.line_dict = {}
 
     @property
     def disabled(self):

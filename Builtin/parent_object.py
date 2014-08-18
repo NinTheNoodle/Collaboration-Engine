@@ -12,17 +12,21 @@ class GameObject(object):
     layer_name = ""
     temporary = False # Whether the object gets destroyed when deactivated / disabled
     section_persist = False # Whether the object gets destroyed when changing level section
-    hspeed = 0
-    vspeed = 0
     is_local = True # Whether this object has been defined at the local scope and can only exist in this level
     depth = 0
     bbox_surface = "None" # Returned as the surface when a simple bounding box is used
 
+    _hspeed = 0
+    _vspeed = 0
     _x_start = 0
     _y_start = 0
     _layer_start = None
     _x = 0
     _y = 0
+    _x_previous = 0
+    _y_previous = 0
+    _hspeed_previous = 0
+    _vspeed_previous = 0
     _always_active = False # Whether the object will deactivate when off screen or not
     _always_visible = False # Whether the object will become invisible when off screen or not
     _no_collide = False # If true the instance won't even be considered for collisions
@@ -33,7 +37,9 @@ class GameObject(object):
     _collision_mesh = None # Precise collision mesh for an object
     _destroyed = False
     _layer = None
+    _layer_previous = None
     _drawing_layer = "default"
+    _collision_disabled_previous = True
     _drawing_layer_depth = 0
     _hp = None
     _disabled = False # Whether the object will be permanently inactive due to being disabled. Usually by the layer being disabled
@@ -121,6 +127,34 @@ class GameObject(object):
             collision.instance_update_collision(self)
             engine.instance_update_activity(self)
             engine.instance_update_visibility(self)
+
+    @property
+    def hspeed(self):
+        return self._hspeed
+
+    @hspeed.setter
+    def hspeed(self, value):
+        if self._hspeed != value:
+            self._hspeed = value
+            if self._collision_mesh is not None:
+                if self._vspeed == 0 and value == 0:
+                    collision.line_grid.collidable_abort_constant_update(self._collision_mesh)
+                else:
+                    collision.line_grid.collidable_constant_update(self._collision_mesh)
+
+    @property
+    def vspeed(self):
+        return self._vspeed
+
+    @vspeed.setter
+    def vspeed(self, value):
+        if self._vspeed != value:
+            self._vspeed = value
+            if self._collision_mesh is not None:
+                if self._hspeed == 0 and value == 0:
+                    collision.line_grid.collidable_abort_constant_update(self._collision_mesh)
+                else:
+                    collision.line_grid.collidable_constant_update(self._collision_mesh)
 
     @property
     def angle(self):

@@ -7,7 +7,6 @@ window = pyglet.window.Window(resizable=True, width=800, height=600)
 window.set_minimum_size(200, 150)
 window.hidden = False
 
-
 @window.event
 def on_hide():
     window.hidden = True
@@ -75,7 +74,9 @@ def on_mouse_release(x, y, button, modifiers):
 
 @window.event
 def on_mouse_motion(x, y, dx, dy):
-    engine.mouse_x = x * (float(camera.view_width) / window.width) - camera.x - camera.view_width / 2
+    engine.window_mouse_x = x
+    engine.window_mouse_y = y
+    engine.mouse_x = x * (float(camera.view_width) / window.width) + camera.x - camera.view_width / 2
     engine.mouse_y = camera.view_height / 2 - (y * (float(camera.view_height) / window.height) - camera.y)
 
 
